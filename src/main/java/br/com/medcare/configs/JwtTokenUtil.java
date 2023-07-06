@@ -28,6 +28,8 @@ public class JwtTokenUtil implements Serializable{
 
 	@Value("${jwt.secret}")
 	private String secret;
+	
+	private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
 	//retrieve username from jwt token
 	public String getUsernameFromToken(String token) {
@@ -45,10 +47,10 @@ public class JwtTokenUtil implements Serializable{
 	}
     //for retrieveing any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
-		 Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+		
 
 		    return Jwts.parserBuilder()
-		            .setSigningKey(key)
+		            .setSigningKey(SECRET_KEY)
 		            .build()
 		            .parseClaimsJws(token)
 		            .getBody();
@@ -73,14 +75,12 @@ public class JwtTokenUtil implements Serializable{
 	//   compaction of the JWT to a URL-safe string 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
 
-		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-
 	    return Jwts.builder()
 	            .setClaims(claims)
 	            .setSubject(subject)
 	            .setIssuedAt(new Date(System.currentTimeMillis()))
 	            .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-	            .signWith(key)
+	            .signWith(SECRET_KEY)
 	            .compact();
 	}
 
