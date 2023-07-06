@@ -2,6 +2,7 @@ package br.com.medcare.configs;
 
 import java.io.Serializable;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class JwtTokenUtil implements Serializable{
 	}
     //for retrieveing any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
-		
+		 
 
 		    return Jwts.parserBuilder()
 		            .setSigningKey(SECRET_KEY)
@@ -75,6 +76,9 @@ public class JwtTokenUtil implements Serializable{
 	//   compaction of the JWT to a URL-safe string 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
 
+	
+		String encodedKey = Base64.getEncoder().encodeToString(SECRET_KEY.getEncoded());
+        System.out.println(encodedKey);
 	    return Jwts.builder()
 	            .setClaims(claims)
 	            .setSubject(subject)
@@ -87,7 +91,8 @@ public class JwtTokenUtil implements Serializable{
 	//validate token
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = getUsernameFromToken(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		Boolean valid = (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		return valid;
 	}
 
 }
