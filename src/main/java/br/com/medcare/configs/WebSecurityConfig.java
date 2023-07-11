@@ -11,66 +11,70 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.medcare.services.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
+
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity( prePostEnabled = false, securedEnabled = false, jsr250Enabled = true)
 @Configuration
 public class WebSecurityConfig {
 	
-	  
-
-	@Autowired
-	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-	@Autowired
-	private UserDetailsService jwtUserDetailsService;
-
-	@Autowired
-	private JwtRequestFilter jwtRequestFilter;
-
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-
-	
-	@Bean
-	public AuthenticationManager authenticationManagerBean(HttpSecurity httpSecurity) throws Exception {
-		 AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-
-	        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
-	        
-	        return authenticationManagerBuilder.build();
-		
-	}
-
-
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		/* AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-	        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
-	        
-	        authenticationManager = authenticationManagerBuilder.build();*/
-	     // We don't need CSRF for this example
-		
-		
-			httpSecurity.csrf().disable()
-					// dont authenticate this particular request
-					.authorizeHttpRequests().requestMatchers("/authenticate").permitAll().
-					// all other requests need to be authenticated
-					anyRequest().authenticated().and().
-					// make sure we use stateless session; session won't be used to
-					// store user's state.
-					exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-					.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-			return httpSecurity.build();
-	}
+	   @Autowired private UserRepository userRepo;
+	    @Autowired private JwtTokenFilter jwtTokenFilter;
+	     
+	    @Bean
+	    public UserDetailsService userDetailsService() {
+	        return new UserDetailsService() {
+	             
+	            @Override
+	            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	                return userRepo.findByEmail(username)
+	                        .orElseThrow(
+	                                () -> new UsernameNotFoundException("User " + username + " not found"));
+	            }
+	        };
+	    }
+	     
+	    @Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
+	     
+	    @Bean
+	    public AuthenticationManager authenticationManager(
+	            AuthenticationConfiguration authConfig) throws Exception {
+	        return authConfig.getAuthenticationManager();
+	    }
+	     
+	    @Bean
+	    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+	        http.csrf().disable();
+	        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	         
+	        http.authorizeRequests()
+	                .requestMatchers("/authenticate", "/docs/**", "/users", "/medicos").permitAll()
+	                .anyRequest().authenticated();
+	         
+	            http.exceptionHandling()
+	                    .authenticationEntryPoint(
+	                        (request, response, ex) -> {
+	                            response.sendError(
+	                                HttpServletResponse.SC_UNAUTHORIZED,
+	                                ex.getMessage()
+	                            );
+	                        }
+	                );
+	         
+	        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+	         
+	        return http.build();
+	    }  
 }       

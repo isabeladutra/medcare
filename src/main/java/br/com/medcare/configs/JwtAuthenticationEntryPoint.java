@@ -1,4 +1,4 @@
-package br.com.medcare.configs;
+/*package br.com.medcare.configs;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 	/**
 	 * Essa classe  é usada para lidar com exceções de autenticação e fornecer uma resposta consistente ao cliente quando a autenticação falha (Quando ocorre uma falha na autenticação de um usuário, seja por falta de credenciais ou credenciais inválidas)
 	 */
-	private static final long serialVersionUID = -1954546581609569773L;
+	/*private static final long serialVersionUID = -1954546581609569773L;
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -25,3 +25,4 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
 	}
 }
+*/
