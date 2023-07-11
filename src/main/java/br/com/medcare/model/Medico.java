@@ -25,6 +25,7 @@ public class Medico  {
 	    private String Endereco;
 	    private Integer cpf;
 	    private String especialidade;
+	    private String nome;
 	    
 	    @OneToOne
 	    private User user;

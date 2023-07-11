@@ -3,15 +3,15 @@ package br.com.medcare.model;
 import lombok.Data;
 
 @Data
-public class MedicoRequest {
-	 private Integer crm;
-	    private Integer celular;
+public class PacienteRequest {
+	 private Integer id;
 	    private Integer idade;
-	    private String Endereco;
+	    private Integer telefone;
+	    private String endereco;
 	    private Integer cpf;
-	    private String especialidade;
+	    private String nome;
 	    private String email;	    
 	    private String password;
-	    private String nome;
+	    private Integer celular;
 
 }

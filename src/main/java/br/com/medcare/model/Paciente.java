@@ -1,9 +1,10 @@
-/*package br.com.medcare.model;
+package br.com.medcare.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,14 +17,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "paciente") 
 public class Paciente{
 	
-	 @Id
+	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Integer id;
 	    private Integer idade;
 	    private Integer telefone;
 	    private String endereco;
 	    private Integer cpf;
+	    private String nome;
+	    
+	    @OneToOne
 	    private User user;
 
 }
-*/
