@@ -1,20 +1,25 @@
 package br.com.medcare;
 
+import java.math.BigInteger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.medcare.model.Paciente;
-
+import br.com.medcare.exceptions.MedicoNaoEncontradoException;
+import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.model.Medico;
 import br.com.medcare.model.MedicoRequest;
 import br.com.medcare.model.PacienteRequest;
 import br.com.medcare.model.User;
-import br.com.medcare.services.MedicoRepositoryService;
+import br.com.medcare.services.MedicoService;
 import br.com.medcare.services.PacienteService;
 import br.com.medcare.services.RoleRepositoryService;
 import br.com.medcare.services.UserRepositoryService;
@@ -24,7 +29,7 @@ import jakarta.annotation.security.RolesAllowed;
 public class MedCareController {
 	
 	@Autowired
-	MedicoRepositoryService medicoService;
+	MedicoService medicoService;
 	
 	@Autowired
 	UserRepositoryService userService;
@@ -50,7 +55,7 @@ public class MedCareController {
 	 @PostMapping("/medicos")
 	    public ResponseEntity<String> cadastraMedico(@RequestBody MedicoRequest medico) {
 	        // esse endpoint seria aberto pra cadastrar um usuário médico no banco
-		    roleService.Salva();
+		  //  roleService.Salva();
 		  User usuarioSalvo =  userService.salvaMedico(medico.getEmail(), medico.getPassword());
 		  Medico novomedico = new Medico();
 		  novomedico.setCelular(medico.getCelular());
@@ -74,7 +79,7 @@ public class MedCareController {
 	 @PostMapping("/paciente")
 	    public ResponseEntity<String> cadastraPaciente(@RequestBody PacienteRequest paciente) {
 	        // esse endpoint seria aberto pra cadastrar um usuário médico no banco
-		    roleService.Salva();
+		    
 		  User usuarioSalvo =  userService.salvaPaciente(paciente.getEmail(), paciente.getPassword());
 		  Paciente novoPaciente = new Paciente();
 		  novoPaciente.setTelefone(paciente.getCelular());
@@ -89,6 +94,17 @@ public class MedCareController {
 	            return new ResponseEntity<>("Paciente criado com sucesso", HttpStatus.CREATED);
 	        } else {
 	            return new ResponseEntity<>("Falha ao criar o paciente", HttpStatus.INTERNAL_SERVER_ERROR);
+	        }
+	    }
+	 
+	 @DeleteMapping("/medico/{crm}")
+	 @RolesAllowed("ROLE_MEDICO")
+	    public ResponseEntity<String> excluirMedico(@PathVariable("crm") BigInteger crm) throws MedicoNaoEncontradoException {
+	        try {
+	            medicoService.excluirMedico(crm);
+	            return ResponseEntity.ok("Medico excluído com sucesso");
+	        } catch (MedicoNaoEncontradoException e) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Medico não encontrado");
 	        }
 	    }
 

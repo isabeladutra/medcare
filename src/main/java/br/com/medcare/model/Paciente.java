@@ -1,5 +1,7 @@
 package br.com.medcare.model;
 
+import java.math.BigInteger;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +25,7 @@ public class Paciente{
 	    private Integer idade;
 	    private Integer telefone;
 	    private String endereco;
-	    private Integer cpf;
+	    private BigInteger cpf;
 	    private String nome;
 	    
 	    @OneToOne

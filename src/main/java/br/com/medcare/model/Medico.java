@@ -1,5 +1,7 @@
 package br.com.medcare.model;
 
+import java.math.BigInteger;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,11 +21,11 @@ public class Medico  {
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Integer id;
-	    private Integer crm;
+	    private BigInteger crm;
 	    private Integer celular;
 	    private Integer idade;
 	    private String Endereco;
-	    private Integer cpf;
+	    private BigInteger cpf;
 	    private String especialidade;
 	    private String nome;
 	    

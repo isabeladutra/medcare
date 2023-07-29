@@ -1,14 +1,16 @@
 package br.com.medcare.model;
 
+import java.math.BigInteger;
+
 import lombok.Data;
 
 @Data
 public class MedicoRequest {
-	 private Integer crm;
+	 private BigInteger crm;
 	    private Integer celular;
 	    private Integer idade;
-	    private String Endereco;
-	    private Integer cpf;
+	    private String endereco;
+	    private BigInteger cpf;
 	    private String especialidade;
 	    private String email;	    
 	    private String password;
