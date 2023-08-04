@@ -28,7 +28,12 @@ import br.com.medcare.services.ConsultaService;
 import br.com.medcare.services.MedicoService;
 import br.com.medcare.services.PacienteService;
 import jakarta.annotation.security.RolesAllowed;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
 
+@OpenAPIDefinition(info = @Info(title = "Medcare", description = "API para uso de medicos e pacientes", contact = @Contact(name="Isabela Dutra", email = "dutraisabela88@gmail.com")))
 @RestController
 @RequestMapping("/consultas")
 public class ConsultaController {
