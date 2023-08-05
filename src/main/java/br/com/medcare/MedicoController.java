@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,7 @@ import br.com.medcare.services.UserRepositoryService;
 import jakarta.annotation.security.RolesAllowed;
 
 @RestController
-public class MedCareController {
+public class MedicoController {
 	
 	@Autowired
 	MedicoService medicoService;
@@ -61,7 +62,7 @@ public class MedCareController {
 		  novomedico.setIdade(medico.getIdade());
 		  novomedico.setUser(usuarioSalvo);
 		  novomedico.setNome(medico.getNome());
-		 	Medico medicoSalvo = medicoService.salvaMedico(novomedico);
+		 	Medico medicoSalvo = medicoService.salvarMedico(novomedico);
 	        // Exemplo de retorno de sucesso com mensagem.
 		 	if (medicoSalvo != null) {
 	            return new ResponseEntity<>("Médico criado com sucesso", HttpStatus.CREATED);
@@ -71,6 +72,33 @@ public class MedCareController {
 	        	return new ResponseEntity<>("Já existe um medico cadastrado com esse nome e email", HttpStatus.CONFLICT);
 	        }
 	    }
+	 
+	 @PutMapping("/medico/atualizar")
+	 @RolesAllowed("ROLE_MEDICO")
+	 public ResponseEntity<String> atualizarMedico(@RequestBody MedicoRequest medicoRequest) {
+	     // Primeiro, verifique se o médico existe pelo nome
+	     Medico medicoExistente = medicoService.buscarMedicoPorNome(medicoRequest.getNome());
+
+	     if (medicoExistente == null) {
+	         return new ResponseEntity<>("Médico não encontrado", HttpStatus.NOT_FOUND);
+	     }
+
+	     // Atualize os campos do médico existente com os dados do medicoRequest
+	     medicoExistente.setCrm(medicoRequest.getCrm());
+	     medicoExistente.setCelular(medicoRequest.getCelular());
+	     medicoExistente.setIdade(medicoRequest.getIdade());
+	     medicoExistente.setEndereco(medicoRequest.getEndereco());
+	     medicoExistente.setCpf(medicoRequest.getCpf());
+	     medicoExistente.setEspecialidade(medicoRequest.getEspecialidade());
+	     medicoExistente.getUser().setEmail(medicoRequest.getEmail());
+	     medicoExistente.getUser().setPassword(medicoRequest.getPassword());
+
+	     // Salve as alterações no banco de dados
+	     medicoService.salvarMedico(medicoExistente);
+
+	     return new ResponseEntity<>("Médico atualizado com sucesso", HttpStatus.OK);
+	 }
+
 	 
 	  
 	 @DeleteMapping("/medico/{crm}")

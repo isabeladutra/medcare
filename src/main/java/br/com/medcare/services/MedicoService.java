@@ -18,7 +18,7 @@ public class MedicoService {
 	@Autowired
 	MedicoRepository repo;
 	
-	public Medico salvaMedico(Medico medico) {
+	public Medico salvarMedico(Medico medico) {
 		return repo.save(medico);
 		
 	}
