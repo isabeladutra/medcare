@@ -60,7 +60,7 @@ public class WebSecurityConfig {
 	        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	         
 	        http.authorizeRequests()
-	                .requestMatchers("/authenticate", "/docs/**", "/users", "/medicos", "/paciente", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs/**").permitAll()
+	                .requestMatchers("/authenticate", "/docs/**", "/users", "/medicos", "/paciente/incluir", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs/**").permitAll()
 	                .anyRequest().authenticated();
 	         
 	            http.exceptionHandling()

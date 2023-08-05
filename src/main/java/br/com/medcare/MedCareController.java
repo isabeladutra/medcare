@@ -72,34 +72,7 @@ public class MedCareController {
 	        }
 	    }
 	 
-	 
-	 @PostMapping("/paciente")
-	    public ResponseEntity<String> cadastraPaciente(@RequestBody PacienteRequest paciente) {
-	        // esse endpoint seria aberto pra cadastrar um usuário médico no banco
-		    
-		 boolean usuarioExiste = userService.buscaMedicoouPaciente(paciente.getEmail());
-		 Paciente pac = pacienteService.buscarPacientePorNome(paciente.getNome());
-		 
-		 if(!usuarioExiste  && pac == null) {
-		  User usuarioSalvo =  userService.salvaPaciente(paciente.getEmail(), paciente.getPassword());
-		  Paciente novoPaciente = new Paciente();
-		  novoPaciente.setTelefone(paciente.getCelular());
-		  novoPaciente.setCpf(paciente.getCpf());
-		  novoPaciente.setEndereco(paciente.getEndereco());
-		  novoPaciente.setIdade(paciente.getIdade());
-		  novoPaciente.setUser(usuarioSalvo);
-		  novoPaciente.setNome(paciente.getNome());
-		 	Paciente pacienteSalvo = pacienteService.salvaPaciente(novoPaciente);
-	        // Exemplo de retorno de sucesso com mensagem.
-		 	if (pacienteSalvo != null) {
-	            return new ResponseEntity<>("Paciente criado com sucesso", HttpStatus.CREATED);
-	        } else {
-	            return new ResponseEntity<>("Falha ao criar o paciente", HttpStatus.INTERNAL_SERVER_ERROR);
-	        }}else {
-	        	return new ResponseEntity<>("Já existe um paciente cadastrado com esse nome e email", HttpStatus.CONFLICT);
-	        }
-	    }
-	 
+	  
 	 @DeleteMapping("/medico/{crm}")
 	 @RolesAllowed("ROLE_MEDICO")
 	    public ResponseEntity<String> excluirMedico(@PathVariable("crm") BigInteger crm) throws MedicoNaoEncontradoException {
