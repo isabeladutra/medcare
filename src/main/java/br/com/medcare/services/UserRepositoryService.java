@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.medcare.model.*;
 import java.util.HashSet;
+import java.util.Optional;
  
 @Service
 public class UserRepositoryService  {
@@ -53,6 +54,18 @@ public class UserRepositoryService  {
 	        return savedUser;
 	         
 	        
+	}
+	
+	public boolean buscaMedicoouPaciente(String email) {
+		Optional<User> retorno =repo.findByEmail(email);
+		
+		  if (retorno.isPresent()) {
+		        // O Optional retornou um valor
+		        return true;
+		    } else {
+		        // O Optional não retornou um valor
+		        return false;
+		    }
 	}
 	
 	

@@ -1,5 +1,6 @@
 package br.com.medcare;
 
+
 import java.math.BigInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,23 +40,17 @@ public class MedCareController {
 	
 	@Autowired
 	PacienteService pacienteService;
-	
-	@GetMapping("user")
-	@RolesAllowed("ROLE_MEDICO")
-	public String helloUser() {
-		return "Hello User";
-	}
 
-	@GetMapping("admin")
-	@RolesAllowed("ROLE_PACIENTE")
-	public String helloAdmin() {
-		return "Hello Admin";
-	}
 	
 	 @PostMapping("/medicos")
 	    public ResponseEntity<String> cadastraMedico(@RequestBody MedicoRequest medico) {
 	        // esse endpoint seria aberto pra cadastrar um usuário médico no banco
 		  //  roleService.Salva();
+		 
+		 //verifica se medico já não existe no banco
+		 boolean usuarioExiste =userService.buscaMedicoouPaciente(medico.getEmail());
+		 Medico med = medicoService.buscarMedicoPorNome(medico.getNome());
+		 if(!usuarioExiste  && med == null ) {
 		  User usuarioSalvo =  userService.salvaMedico(medico.getEmail(), medico.getPassword());
 		  Medico novomedico = new Medico();
 		  novomedico.setCelular(medico.getCelular());
@@ -72,6 +67,8 @@ public class MedCareController {
 	            return new ResponseEntity<>("Médico criado com sucesso", HttpStatus.CREATED);
 	        } else {
 	            return new ResponseEntity<>("Falha ao criar o médico", HttpStatus.INTERNAL_SERVER_ERROR);
+	        }}else {
+	        	return new ResponseEntity<>("Já existe um medico cadastrado com esse nome e email", HttpStatus.CONFLICT);
 	        }
 	    }
 	 
@@ -80,6 +77,10 @@ public class MedCareController {
 	    public ResponseEntity<String> cadastraPaciente(@RequestBody PacienteRequest paciente) {
 	        // esse endpoint seria aberto pra cadastrar um usuário médico no banco
 		    
+		 boolean usuarioExiste = userService.buscaMedicoouPaciente(paciente.getEmail());
+		 Paciente pac = pacienteService.buscarPacientePorNome(paciente.getNome());
+		 
+		 if(!usuarioExiste  && pac == null) {
 		  User usuarioSalvo =  userService.salvaPaciente(paciente.getEmail(), paciente.getPassword());
 		  Paciente novoPaciente = new Paciente();
 		  novoPaciente.setTelefone(paciente.getCelular());
@@ -94,6 +95,8 @@ public class MedCareController {
 	            return new ResponseEntity<>("Paciente criado com sucesso", HttpStatus.CREATED);
 	        } else {
 	            return new ResponseEntity<>("Falha ao criar o paciente", HttpStatus.INTERNAL_SERVER_ERROR);
+	        }}else {
+	        	return new ResponseEntity<>("Já existe um paciente cadastrado com esse nome e email", HttpStatus.CONFLICT);
 	        }
 	    }
 	 
