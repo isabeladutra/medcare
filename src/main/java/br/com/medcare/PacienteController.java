@@ -1,6 +1,7 @@
 package br.com.medcare;
 
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.medcare.dto.ConsultaDTO;
+import br.com.medcare.dto.PacienteDTO;
 import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.mappers.ConsultaDTOMapper;
+import br.com.medcare.mappers.PacienteDTOMapper;
 import br.com.medcare.model.Consulta;
 import br.com.medcare.model.Paciente;
 import br.com.medcare.model.PacienteRequest;
@@ -91,6 +94,12 @@ public class PacienteController {
 			novoPaciente.setIdade(paciente.getIdade());
 			novoPaciente.setUser(usuarioSalvo);
 			novoPaciente.setNome(paciente.getNome());
+			try {
+				novoPaciente.setDataDenascimento(paciente.getDataDeNascimentoAsDate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				return new ResponseEntity<>("Não foi possivel fazer o parse da data de nascimento. Deve estar no formato dd/mm/yyyy", HttpStatus.CONFLICT);
+			}
 			Paciente pacienteSalvo = pacienteService.salvarPaciente(novoPaciente);
 			// Exemplo de retorno de sucesso com mensagem.
 			if (pacienteSalvo != null) {
@@ -102,33 +111,52 @@ public class PacienteController {
 			return new ResponseEntity<>("Já existe um paciente cadastrado com esse nome e email", HttpStatus.CONFLICT);
 		}
 	}
-	
-	
-	
+
 	@PutMapping("/atualizar")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<String> atualizarPaciente(@RequestBody PacienteRequest pacienteRequest) {
-	    // Primeiro, verifique se o paciente existe pelo nome
-	    Paciente pacienteExistente = pacienteService.buscarPacientePorNome(pacienteRequest.getNome());
+		// Primeiro, verifique se o paciente existe pelo nome
+		Paciente pacienteExistente = pacienteService.buscarPacientePorNome(pacienteRequest.getNome());
 
-	    if (pacienteExistente == null) {
-	        return new ResponseEntity<>("Paciente não encontrado", HttpStatus.NOT_FOUND);
-	    }
+		if (pacienteExistente == null) {
+			return new ResponseEntity<>("Paciente não encontrado", HttpStatus.NOT_FOUND);
+		}
 
-	    // Atualize os campos do paciente existente com os dados do pacienteRequest
-	    pacienteExistente.setIdade(pacienteRequest.getIdade());
-	    pacienteExistente.setTelefone(pacienteRequest.getTelefone());
-	    pacienteExistente.setEndereco(pacienteRequest.getEndereco());
-	    pacienteExistente.setCpf(pacienteRequest.getCpf());
-	    pacienteExistente.getUser().setEmail(pacienteRequest.getEmail());
-	    pacienteExistente.getUser().setPassword(pacienteRequest.getPassword());
-	    
+		// Atualize os campos do paciente existente com os dados do pacienteRequest
+		pacienteExistente.setIdade(pacienteRequest.getIdade());
+		pacienteExistente.setTelefone(pacienteRequest.getTelefone());
+		pacienteExistente.setEndereco(pacienteRequest.getEndereco());
+		pacienteExistente.setCpf(pacienteRequest.getCpf());
+		try {
+			pacienteExistente.setDataDenascimento(pacienteRequest.getDataDeNascimentoAsDate());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<>("Não foi possivel fazer o parse da data de nascimento. Deve estar no formato dd/mm/yyyy", HttpStatus.CONFLICT);
+		}
+		pacienteExistente.getUser().setEmail(pacienteRequest.getEmail());
+		pacienteExistente.getUser().setPassword(pacienteRequest.getPassword());
 
-	    // Salve as alterações no banco de dados
-	    pacienteService.salvarPaciente(pacienteExistente);
+		// Salve as alterações no banco de dados
+		pacienteService.salvarPaciente(pacienteExistente);
 
-	    return new ResponseEntity<>("Paciente atualizado com sucesso", HttpStatus.OK);
+		return new ResponseEntity<>("Paciente atualizado com sucesso", HttpStatus.OK);
 	}
 
+	@GetMapping("/listar-pacientes")
+	@RolesAllowed("ROLE_MEDICO")
+	public ResponseEntity<List<PacienteDTO>> listarPacientes() {
+		List<Paciente> pacientes = pacienteService.listarTodosPacientes();
+
+		if (pacientes.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+		List<PacienteDTO> pacientesDTO = new ArrayList<PacienteDTO>();	
+		for (Paciente paciente : pacientes) {
+			PacienteDTO dto = PacienteDTOMapper.mapper(paciente);
+			pacientesDTO.add(dto);
+		}
+			return new ResponseEntity<>(pacientesDTO, HttpStatus.OK);
+		}
+	}
 
 }

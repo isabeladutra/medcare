@@ -1,6 +1,7 @@
 package br.com.medcare.model;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class Paciente{
 	    private String endereco;
 	    private BigInteger cpf;
 	    private String nome;
+	    private Date dataDenascimento;
 	    
 	    @OneToOne
 	    private User user;

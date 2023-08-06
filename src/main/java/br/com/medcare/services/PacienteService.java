@@ -1,6 +1,7 @@
 package br.com.medcare.services;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,10 @@ public class PacienteService {
     public Paciente buscarPacientePorNome(String nomePaciente) {
         // Aqui você pode implementar validações ou lógica adicional, se necessário
         return repo.findByNome(nomePaciente);
+    }
+
+    public List<Paciente> listarTodosPacientes() {
+        return repo.findAll();
     }
 	
 }

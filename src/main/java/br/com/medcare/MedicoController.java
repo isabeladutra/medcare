@@ -36,11 +36,31 @@ public class MedicoController {
 	@Autowired
 	UserRepositoryService userService;
 	
+	public void setMedicoService(MedicoService medicoService) {
+		this.medicoService = medicoService;
+	}
+
+	public void setUserService(UserRepositoryService userService) {
+		this.userService = userService;
+	}
+
+	public void setRoleService(RoleRepositoryService roleService) {
+		this.roleService = roleService;
+	}
+
+	public void setPacienteService(PacienteService pacienteService) {
+		this.pacienteService = pacienteService;
+	}
+
+
+
 	@Autowired
 	RoleRepositoryService roleService;
 	
 	@Autowired
 	PacienteService pacienteService;
+	
+	
 
 	
 	 @PostMapping("/medicos")
