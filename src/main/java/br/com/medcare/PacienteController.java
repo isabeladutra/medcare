@@ -98,7 +98,9 @@ public class PacienteController {
 				novoPaciente.setDataDenascimento(paciente.getDataDeNascimentoAsDate());
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
-				return new ResponseEntity<>("Não foi possivel fazer o parse da data de nascimento. Deve estar no formato dd/mm/yyyy", HttpStatus.CONFLICT);
+				return new ResponseEntity<>(
+						"Não foi possivel fazer o parse da data de nascimento. Deve estar no formato dd/mm/yyyy",
+						HttpStatus.CONFLICT);
 			}
 			Paciente pacienteSalvo = pacienteService.salvarPaciente(novoPaciente);
 			// Exemplo de retorno de sucesso com mensagem.
@@ -131,7 +133,9 @@ public class PacienteController {
 			pacienteExistente.setDataDenascimento(pacienteRequest.getDataDeNascimentoAsDate());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			return new ResponseEntity<>("Não foi possivel fazer o parse da data de nascimento. Deve estar no formato dd/mm/yyyy", HttpStatus.CONFLICT);
+			return new ResponseEntity<>(
+					"Não foi possivel fazer o parse da data de nascimento. Deve estar no formato dd/mm/yyyy",
+					HttpStatus.CONFLICT);
 		}
 		pacienteExistente.getUser().setEmail(pacienteRequest.getEmail());
 		pacienteExistente.getUser().setPassword(pacienteRequest.getPassword());
@@ -150,11 +154,11 @@ public class PacienteController {
 		if (pacientes.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
-		List<PacienteDTO> pacientesDTO = new ArrayList<PacienteDTO>();	
-		for (Paciente paciente : pacientes) {
-			PacienteDTO dto = PacienteDTOMapper.mapper(paciente);
-			pacientesDTO.add(dto);
-		}
+			List<PacienteDTO> pacientesDTO = new ArrayList<PacienteDTO>();
+			for (Paciente paciente : pacientes) {
+				PacienteDTO dto = PacienteDTOMapper.mapper(paciente);
+				pacientesDTO.add(dto);
+			}
 			return new ResponseEntity<>(pacientesDTO, HttpStatus.OK);
 		}
 	}
