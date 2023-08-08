@@ -20,6 +20,7 @@ public class PacienteRequest {
 	    private String password;
 	    private Integer celular;
 	    private String dataDeNascimento;
+	    private String sexo;
 	    
 	    
 	    public Date getDataDeNascimentoAsDate() throws ParseException {

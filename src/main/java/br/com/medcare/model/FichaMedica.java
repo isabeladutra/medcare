@@ -1,6 +1,7 @@
 package br.com.medcare.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -32,10 +33,9 @@ public class FichaMedica {
 	    private LocalDateTime dataRegistro;
 	    private double peso;
 	    private double altura;
-	    private Date dataDeNascimento;
+	    private String dataDeNascimento;
 	    
-	    @ElementCollection
-	    private List<String> problemasDeSaude;
+	    private ProblemasDeSaude problemasDeSaude;
 	    
 	    private Integer contatoDeEmergencia;
 	    private String alergias;
@@ -43,5 +43,11 @@ public class FichaMedica {
 	    @ManyToOne
 	    @JoinColumn(name = "paciente_id")
 	    private Paciente paciente;
+	    
+	    public void setDataDeNascimentoFormatted(String dataDeNascimento) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDateTime localDateTime = LocalDateTime.parse(dataDeNascimento, formatter);
+			this.dataDeNascimento = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE);
+		}
 
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.com.medcare.mappers.ProblemasDeSaudeMapper;
 import br.com.medcare.model.FichaMedica;
 import br.com.medcare.model.FichaMedicaRequest;
 import br.com.medcare.model.Paciente;
@@ -50,7 +52,7 @@ public class FichaMedicaController {
         fichaMedica.setPeso(fichaMedicaRequest.getPeso());
         fichaMedica.setContatoDeEmergencia(fichaMedicaRequest.getContatoDeEmergencia());
         fichaMedica.setPaciente(paciente);
-        fichaMedica.setProblemasDeSaude(fichaMedicaRequest.getProblemasDeSaude());
+        fichaMedica.setProblemasDeSaude(ProblemasDeSaudeMapper.mapper(fichaMedicaRequest.getProblemasDeSaude()));
         fichaMedica.setDataRegistro(LocalDateTime.now());
         // Outros campos da ficha médica
 

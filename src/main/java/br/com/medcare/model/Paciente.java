@@ -29,6 +29,7 @@ public class Paciente{
 	    private BigInteger cpf;
 	    private String nome;
 	    private Date dataDenascimento;
+	    private String sexo;
 	    
 	    @OneToOne
 	    private User user;

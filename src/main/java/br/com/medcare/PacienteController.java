@@ -94,6 +94,7 @@ public class PacienteController {
 			novoPaciente.setIdade(paciente.getIdade());
 			novoPaciente.setUser(usuarioSalvo);
 			novoPaciente.setNome(paciente.getNome());
+			novoPaciente.setSexo(paciente.getSexo());
 			try {
 				novoPaciente.setDataDenascimento(paciente.getDataDeNascimentoAsDate());
 			} catch (ParseException e) {
@@ -129,6 +130,7 @@ public class PacienteController {
 		pacienteExistente.setTelefone(pacienteRequest.getTelefone());
 		pacienteExistente.setEndereco(pacienteRequest.getEndereco());
 		pacienteExistente.setCpf(pacienteRequest.getCpf());
+		pacienteExistente.setSexo(pacienteRequest.getSexo());
 		try {
 			pacienteExistente.setDataDenascimento(pacienteRequest.getDataDeNascimentoAsDate());
 		} catch (ParseException e) {

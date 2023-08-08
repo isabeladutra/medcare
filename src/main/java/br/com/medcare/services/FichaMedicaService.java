@@ -3,6 +3,7 @@ package br.com.medcare.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.medcare.mappers.ProblemasDeSaudeMapper;
 import br.com.medcare.model.FichaMedica;
 import br.com.medcare.model.FichaMedicaRequest;
 
@@ -41,7 +42,7 @@ public class FichaMedicaService {
 	            fichaMedicaExistente.setPeso(fichaMedicaRequest.getPeso());
 	            fichaMedicaExistente.setAltura(fichaMedicaRequest.getAltura());
 	            fichaMedicaExistente.setDataDeNascimento(fichaMedicaRequest.getDataDeNascimento());
-	            fichaMedicaExistente.setProblemasDeSaude(fichaMedicaRequest.getProblemasDeSaude());
+	            fichaMedicaExistente.setProblemasDeSaude(ProblemasDeSaudeMapper.mapper(fichaMedicaRequest.getProblemasDeSaude()));
 	            fichaMedicaExistente.setContatoDeEmergencia(fichaMedicaRequest.getContatoDeEmergencia());
 	            fichaMedicaExistente.setAlergias(fichaMedicaRequest.getAlergias());
 

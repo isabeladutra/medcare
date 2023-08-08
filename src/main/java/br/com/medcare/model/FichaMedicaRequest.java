@@ -12,8 +12,8 @@ public class FichaMedicaRequest {
 	private Integer idade;
 	private double peso;
 	private double altura;
-	private Date dataDeNascimento;
-	private List<String> problemasDeSaude;
+	private String dataDeNascimento;
+	private ProblemasDeSaudeRequest problemasDeSaude;
 	private Integer contatoDeEmergencia;
 	private String alergias;
 
