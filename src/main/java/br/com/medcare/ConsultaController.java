@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/consultas")
 public class ConsultaController {

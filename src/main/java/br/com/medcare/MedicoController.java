@@ -27,7 +27,7 @@ import br.com.medcare.services.RoleRepositoryService;
 import br.com.medcare.services.UserRepositoryService;
 import jakarta.annotation.security.RolesAllowed;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 public class MedicoController {
 

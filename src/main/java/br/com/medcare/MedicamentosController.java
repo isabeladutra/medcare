@@ -20,7 +20,7 @@ import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.services.MedicamentosService;
 import jakarta.annotation.security.RolesAllowed;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/medicamentos")
 public class MedicamentosController {

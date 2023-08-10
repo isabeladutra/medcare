@@ -24,7 +24,7 @@ import br.com.medcare.services.InternacaoService;
 import jakarta.annotation.security.RolesAllowed;
 
 
-@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/internacao")
 public class InternacaoController {

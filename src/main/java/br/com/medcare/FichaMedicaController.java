@@ -23,7 +23,7 @@ import br.com.medcare.services.FichaMedicaService;
 import br.com.medcare.services.PacienteService;
 import jakarta.annotation.security.RolesAllowed;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/fichas-medicas")
 public class FichaMedicaController {
