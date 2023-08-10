@@ -69,7 +69,7 @@ public class PacienteController {
 		}
 	}
 
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+	@CrossOrigin(origins = {"http://127.0.0.1:3000", "http://129.168.1.38:8080"})
 	@DeleteMapping("/{cpf}")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<String> excluirPaciente(@PathVariable("cpf") BigInteger cpf) {
@@ -81,7 +81,7 @@ public class PacienteController {
 		}
 	}
 
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+    @CrossOrigin(origins = {"http://127.0.0.1:3000", "http://129.168.1.38:8080"})
 	@PostMapping("/incluir")
 	public ResponseEntity<String> cadastraPaciente(@RequestBody PacienteRequest paciente) {
 		// esse endpoint seria aberto pra cadastrar um usuário médico no banco
