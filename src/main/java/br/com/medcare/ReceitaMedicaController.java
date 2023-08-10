@@ -22,7 +22,10 @@ import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.model.ReceitaMedica;
 import br.com.medcare.model.ReceitaMedicaRequest;
 import br.com.medcare.services.ReceitaMedicaService;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.annotation.security.RolesAllowed;
+
 
 
 @RequestMapping("/receitas-medicas")

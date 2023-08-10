@@ -30,6 +30,8 @@ import br.com.medcare.model.User;
 import br.com.medcare.services.ConsultaService;
 import br.com.medcare.services.PacienteService;
 import br.com.medcare.services.UserRepositoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
 
 @RestController
@@ -50,7 +52,7 @@ public class PacienteController {
 	@Autowired
 	UserRepositoryService userService;
 
-	@CrossOrigin(origins = "*")
+
 	@GetMapping("/{cpf}/consultas")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<?> listarConsultasDoPaciente(@PathVariable("cpf") BigInteger cpf) {
@@ -69,7 +71,7 @@ public class PacienteController {
 		}
 	}
 
-	@CrossOrigin(origins = "*")
+
 	@DeleteMapping("/{cpf}")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<String> excluirPaciente(@PathVariable("cpf") BigInteger cpf) {
@@ -81,7 +83,7 @@ public class PacienteController {
 		}
 	}
 
-    @CrossOrigin(origins = "*")
+	
 	@PostMapping("/incluir")
 	public ResponseEntity<String> cadastraPaciente(@RequestBody PacienteRequest paciente) {
 		// esse endpoint seria aberto pra cadastrar um usuário médico no banco
@@ -119,7 +121,7 @@ public class PacienteController {
 		}
 	}
 
-	@CrossOrigin(origins = "*")
+
 	@PutMapping("/atualizar")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<String> atualizarPaciente(@RequestBody PacienteRequest pacienteRequest) {
@@ -153,7 +155,7 @@ public class PacienteController {
 		return new ResponseEntity<>("Paciente atualizado com sucesso", HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "*")
+
 	@GetMapping("/listar-pacientes")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<List<PacienteDTO>> listarPacientes() {
