@@ -20,6 +20,7 @@ import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.services.MedicamentosService;
 import jakarta.annotation.security.RolesAllowed;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/medicamentos")
 public class MedicamentosController {
@@ -27,7 +28,7 @@ public class MedicamentosController {
 	@Autowired
 	MedicamentosService service;
 	
-	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/salvar")
 	@RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> salvarMedicamentos(@RequestBody MedicamentoRequest dto) {
@@ -39,7 +40,7 @@ public class MedicamentosController {
         }
     }
 	
-	
+	@CrossOrigin(origins = "*")
 	@GetMapping("/listar")
 	@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
 	public ResponseEntity<?> listarMedicamentosPorNomePaciente(@RequestParam String nomePaciente) {

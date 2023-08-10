@@ -23,6 +23,7 @@ import br.com.medcare.services.FichaMedicaService;
 import br.com.medcare.services.PacienteService;
 import jakarta.annotation.security.RolesAllowed;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/fichas-medicas")
 public class FichaMedicaController {
@@ -33,7 +34,7 @@ public class FichaMedicaController {
 	@Autowired
 	public FichaMedicaService fichaService;
 
-	
+	@CrossOrigin(origins = "*")
     @PostMapping("/incluir")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<String> incluirFichaMedica(@RequestBody FichaMedicaRequest fichaMedicaRequest) {
@@ -64,7 +65,7 @@ public class FichaMedicaController {
         return new ResponseEntity<>("Ficha médica incluída com sucesso", HttpStatus.CREATED);
     }
     
-	
+	@CrossOrigin(origins = "*")
     @GetMapping("/buscar-por-nome/{nomePaciente}")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<FichaMedica> buscarFichaMedicaPorNome(@PathVariable String nomePaciente) {
@@ -77,7 +78,7 @@ public class FichaMedicaController {
         }
     }
     
-	
+	@CrossOrigin(origins = "*")
     @DeleteMapping("/excluir-por-nome/{nomePaciente}")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<String> excluirFichaMedicaPorNome(@PathVariable String nomePaciente) {
@@ -91,7 +92,7 @@ public class FichaMedicaController {
     }
     
     
-	
+	@CrossOrigin(origins = "*")
     @PutMapping("/atualizar-por-nome/{nomePaciente}")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<FichaMedica> atualizarFichaMedicaPorNome(@PathVariable String nomePaciente, @RequestBody FichaMedicaRequest fichaMedicaRequest) {

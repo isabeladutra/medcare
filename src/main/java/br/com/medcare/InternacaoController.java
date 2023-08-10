@@ -24,6 +24,7 @@ import br.com.medcare.services.InternacaoService;
 import jakarta.annotation.security.RolesAllowed;
 
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/internacao")
 public class InternacaoController {
@@ -31,7 +32,7 @@ public class InternacaoController {
 	@Autowired
 	private InternacaoService internacaoService;
 	
-
+	@CrossOrigin(origins = "*")
 	@PostMapping("/adicionar")
 	@RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<Internacao> adicionarInternacao(@RequestBody InternacaoRequest internacaoRequest) {
@@ -44,7 +45,7 @@ public class InternacaoController {
         }
     }
 	
-
+	@CrossOrigin(origins = "*")
     @GetMapping("/paciente/{nomePaciente}")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<List<Internacao>> buscarInternacoesPorNomePaciente(@PathVariable String nomePaciente) {
@@ -57,7 +58,7 @@ public class InternacaoController {
         }
     }
     
-	
+	@CrossOrigin(origins = "*")
     @PutMapping("/atualizar")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<Internacao> atualizarInternacao(
@@ -77,7 +78,7 @@ public class InternacaoController {
         }
     }
 	
-	
+	@CrossOrigin(origins = "*")
     @DeleteMapping("/excluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> excluirInternacao(

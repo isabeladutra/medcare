@@ -27,6 +27,7 @@ import br.com.medcare.services.RoleRepositoryService;
 import br.com.medcare.services.UserRepositoryService;
 import jakarta.annotation.security.RolesAllowed;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class MedicoController {
 
@@ -58,7 +59,7 @@ public class MedicoController {
 	@Autowired
 	PacienteService pacienteService;
 
-	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/medicos")
 	public ResponseEntity<String> cadastraMedico(@RequestBody MedicoRequest medico) {
 		// esse endpoint seria aberto pra cadastrar um usuário médico no banco
@@ -91,6 +92,7 @@ public class MedicoController {
 	}
 
 	
+	@CrossOrigin(origins = "*")
 	@PutMapping("/medico/atualizar")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<String> atualizarMedico(@RequestBody MedicoRequest medicoRequest) {
@@ -117,7 +119,7 @@ public class MedicoController {
 		return new ResponseEntity<>("Médico atualizado com sucesso", HttpStatus.OK);
 	}
 
-	
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/medico/{crm}")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<String> excluirMedico(@PathVariable("crm") BigInteger crm)
