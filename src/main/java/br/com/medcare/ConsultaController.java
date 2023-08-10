@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,6 +48,7 @@ public class ConsultaController {
 	@Autowired
 	private PacienteService pacienteService;
 
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
 	@PostMapping("/agendar")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<String> agendarConsulta(@RequestBody ConsultaRequest consultaRequest) {
@@ -86,6 +88,7 @@ public class ConsultaController {
 				+ consultaAgendada.getPaciente().getNome(), HttpStatus.CREATED);
 	}
 
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
 	@PutMapping("/reagendar")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<String> reagendarConsulta(@RequestBody ReagendamentoConsultaDTO reagendamentoDTO)
@@ -104,7 +107,7 @@ public class ConsultaController {
 	}
 	
 	 
-
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
 	@DeleteMapping("/cancelar")
 	@RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<String> cancelarConsulta(@RequestParam LocalDateTime data) {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import br.com.medcare.model.ReceitaMedicaRequest;
 import br.com.medcare.services.ReceitaMedicaService;
 import jakarta.annotation.security.RolesAllowed;
 
+
 @RequestMapping("/receitas-medicas")
 @RestController
 public class ReceitaMedicaController {
@@ -30,6 +32,7 @@ public class ReceitaMedicaController {
 	@Autowired
 	ReceitaMedicaService receitaService;
 
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @PostMapping("/incluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> incluirReceitaMedica(@RequestBody ReceitaMedicaRequest receitaMedicaRequest) {
@@ -50,6 +53,7 @@ public class ReceitaMedicaController {
         }
     }
     
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @GetMapping("/buscar")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<ReceitaMedica> buscarReceitaMedicaPorNomePacienteEMedico(
@@ -64,6 +68,7 @@ public class ReceitaMedicaController {
         }
     }
     
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @DeleteMapping("/excluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> excluirReceitaMedica(

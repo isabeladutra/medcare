@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class InternacaoController {
 	@Autowired
 	private InternacaoService internacaoService;
 	
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
 	@PostMapping("/adicionar")
 	@RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<Internacao> adicionarInternacao(@RequestBody InternacaoRequest internacaoRequest) {
@@ -41,6 +43,7 @@ public class InternacaoController {
         }
     }
 	
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @GetMapping("/paciente/{nomePaciente}")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<List<Internacao>> buscarInternacoesPorNomePaciente(@PathVariable String nomePaciente) {
@@ -53,6 +56,7 @@ public class InternacaoController {
         }
     }
     
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @PutMapping("/atualizar")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<Internacao> atualizarInternacao(
@@ -71,7 +75,8 @@ public class InternacaoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+	
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @DeleteMapping("/excluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> excluirInternacao(

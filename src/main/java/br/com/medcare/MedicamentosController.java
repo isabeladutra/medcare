@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ public class MedicamentosController {
 	@Autowired
 	MedicamentosService service;
 	
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
 	@PostMapping("/salvar")
 	@RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> salvarMedicamentos(@RequestBody MedicamentoRequest dto) {
@@ -37,6 +39,7 @@ public class MedicamentosController {
         }
     }
 	
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
 	@GetMapping("/listar")
 	@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
 	public ResponseEntity<?> listarMedicamentosPorNomePaciente(@RequestParam String nomePaciente) {

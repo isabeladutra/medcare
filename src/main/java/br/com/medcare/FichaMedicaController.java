@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class FichaMedicaController {
 	@Autowired
 	public FichaMedicaService fichaService;
 
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @PostMapping("/incluir")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<String> incluirFichaMedica(@RequestBody FichaMedicaRequest fichaMedicaRequest) {
@@ -62,6 +64,7 @@ public class FichaMedicaController {
         return new ResponseEntity<>("Ficha médica incluída com sucesso", HttpStatus.CREATED);
     }
     
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @GetMapping("/buscar-por-nome/{nomePaciente}")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<FichaMedica> buscarFichaMedicaPorNome(@PathVariable String nomePaciente) {
@@ -74,6 +77,7 @@ public class FichaMedicaController {
         }
     }
     
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @DeleteMapping("/excluir-por-nome/{nomePaciente}")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<String> excluirFichaMedicaPorNome(@PathVariable String nomePaciente) {
@@ -87,6 +91,7 @@ public class FichaMedicaController {
     }
     
     
+	@CrossOrigin(origins = "http://127.0.0.1:3000")
     @PutMapping("/atualizar-por-nome/{nomePaciente}")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<FichaMedica> atualizarFichaMedicaPorNome(@PathVariable String nomePaciente, @RequestBody FichaMedicaRequest fichaMedicaRequest) {
