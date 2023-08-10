@@ -27,7 +27,7 @@ public class MedicamentosController {
 	@Autowired
 	MedicamentosService service;
 	
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+	@CrossOrigin(origins = "*")
 	@PostMapping("/salvar")
 	@RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> salvarMedicamentos(@RequestBody MedicamentoRequest dto) {
@@ -39,7 +39,7 @@ public class MedicamentosController {
         }
     }
 	
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+	@CrossOrigin(origins = "*")
 	@GetMapping("/listar")
 	@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
 	public ResponseEntity<?> listarMedicamentosPorNomePaciente(@RequestParam String nomePaciente) {

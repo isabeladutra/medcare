@@ -30,7 +30,7 @@ public class InternacaoController {
 	@Autowired
 	private InternacaoService internacaoService;
 	
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+	@CrossOrigin(origins = "*")
 	@PostMapping("/adicionar")
 	@RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<Internacao> adicionarInternacao(@RequestBody InternacaoRequest internacaoRequest) {
@@ -43,7 +43,7 @@ public class InternacaoController {
         }
     }
 	
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+	@CrossOrigin(origins = "*")
     @GetMapping("/paciente/{nomePaciente}")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<List<Internacao>> buscarInternacoesPorNomePaciente(@PathVariable String nomePaciente) {
@@ -56,7 +56,7 @@ public class InternacaoController {
         }
     }
     
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+	@CrossOrigin(origins = "*")
     @PutMapping("/atualizar")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<Internacao> atualizarInternacao(
@@ -76,7 +76,7 @@ public class InternacaoController {
         }
     }
 	
-	@CrossOrigin(origins = "http://127.0.0.1:3000")
+	@CrossOrigin(origins = "*")
     @DeleteMapping("/excluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> excluirInternacao(
