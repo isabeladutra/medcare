@@ -35,7 +35,7 @@ public class ReceitaMedicaController {
 	@Autowired
 	ReceitaMedicaService receitaService;
 
-	@CrossOrigin(origins = "*")
+	
     @PostMapping("/incluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> incluirReceitaMedica(@RequestBody ReceitaMedicaRequest receitaMedicaRequest) {
@@ -56,7 +56,7 @@ public class ReceitaMedicaController {
         }
     }
     
-	@CrossOrigin(origins = "*")
+	
     @GetMapping("/buscar")
     @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<ReceitaMedica> buscarReceitaMedicaPorNomePacienteEMedico(
@@ -71,7 +71,7 @@ public class ReceitaMedicaController {
         }
     }
     
-	@CrossOrigin(origins = "*")
+	
     @DeleteMapping("/excluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> excluirReceitaMedica(

@@ -1,9 +1,8 @@
 package br.com.medcare.configs;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
-
- 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,7 +47,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
  
     private boolean hasAuthorizationBearer(HttpServletRequest request) {
+    	Enumeration<String> teste = request.getHeaderNames();
         String header = request.getHeader("Authorization");
+        boolean test = ObjectUtils.isEmpty(header);
+        
         if (ObjectUtils.isEmpty(header) || !header.startsWith("Bearer")) {
             return false;
         }

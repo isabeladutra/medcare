@@ -49,7 +49,7 @@ public class ConsultaController {
 	private PacienteService pacienteService;
 
 
-	@CrossOrigin(origins = "*")
+	
 	@PostMapping("/agendar")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<String> agendarConsulta(@RequestBody ConsultaRequest consultaRequest) {
@@ -89,7 +89,7 @@ public class ConsultaController {
 				+ consultaAgendada.getPaciente().getNome(), HttpStatus.CREATED);
 	}
 
-	@CrossOrigin(origins = "*")
+	
 	@PutMapping("/reagendar")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<String> reagendarConsulta(@RequestBody ReagendamentoConsultaDTO reagendamentoDTO)
@@ -108,7 +108,7 @@ public class ConsultaController {
 	}
 	
 	 
-	@CrossOrigin(origins = "*")
+	
 	@DeleteMapping("/cancelar")
 	@RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<String> cancelarConsulta(@RequestParam LocalDateTime data) {
