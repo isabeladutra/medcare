@@ -58,7 +58,8 @@ public class MedicoController {
 
 	@Autowired
 	PacienteService pacienteService;
-
+	
+	
 	@PostMapping("/medicos")
 	public ResponseEntity<String> cadastraMedico(@RequestBody MedicoRequest medico) {
 		// esse endpoint seria aberto pra cadastrar um usuário médico no banco
@@ -117,6 +118,7 @@ public class MedicoController {
 		return new ResponseEntity<>("Médico atualizado com sucesso", HttpStatus.OK);
 	}
 
+	
 	@DeleteMapping("/medico/{crm}")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<String> excluirMedico(@PathVariable("crm") BigInteger crm)

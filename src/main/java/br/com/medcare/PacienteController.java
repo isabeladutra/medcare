@@ -156,6 +156,7 @@ public class PacienteController {
 	}
 	
 
+	
 	@GetMapping("/listar-pacientes")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<List<PacienteDTO>> listarPacientes() {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
  
+    	if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
+            filterChain.doFilter(request, response);
+            return;
+    	}
         if (!hasAuthorizationBearer(request)) {
             filterChain.doFilter(request, response);
             return;
