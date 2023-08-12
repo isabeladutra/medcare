@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import br.com.medcare.dto.MedicamentoRequest;
 import br.com.medcare.exceptions.PacienteNaoEncontradoException;
+import br.com.medcare.mappers.MedicamentoMapper;
 import br.com.medcare.model.Medicamentos;
 import br.com.medcare.model.Paciente;
+import br.com.medcare.model.PrescricaoMedicamento;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -27,16 +30,16 @@ public class MedicamentosService {
 
         if (paciente != null) {
         	Medicamentos medicamentos = new Medicamentos();
-        	medicamentos.setListaMedicamentos(dto.getListaMedicamentos());  // Set your list of medications here
-        	medicamentos.setPaciente(paciente);
+        	Medicamentos med = new MedicamentoMapper().mapToMedicamentos(dto, paciente);
 
-            repo.save(medicamentos);
+
+            repo.save(med);
         } else {
             throw new PacienteNaoEncontradoException("Paciente não encontrado.");
         }
     }
 
-    public List<String> listarMedicamentosPorNomePaciente(String nomePaciente) throws PacienteNaoEncontradoException {
+    public List<PrescricaoMedicamento> listarMedicamentosPorNomePaciente(String nomePaciente) throws PacienteNaoEncontradoException {
         Paciente paciente = pacienteRepository.findByNome(nomePaciente);
 
         if (paciente == null) {
@@ -46,7 +49,7 @@ public class MedicamentosService {
         Medicamentos medicamentos = repo.findByPaciente(paciente);
         
         if (medicamentos != null) {
-            return medicamentos.getListaMedicamentos();
+            return medicamentos.getPrescricoes();
         } else {
             return Collections.emptyList();
         }

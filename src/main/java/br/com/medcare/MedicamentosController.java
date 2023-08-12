@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.medcare.dto.MedicamentoRequest;
 import br.com.medcare.exceptions.PacienteNaoEncontradoException;
+import br.com.medcare.model.PrescricaoMedicamento;
 import br.com.medcare.services.MedicamentosService;
 import jakarta.annotation.security.RolesAllowed;
 
@@ -43,7 +44,7 @@ public class MedicamentosController {
 	public ResponseEntity<?> listarMedicamentosPorNomePaciente(@RequestParam String nomePaciente) {
 		try {
 
-			List<String> listaMedicamentos = service.listarMedicamentosPorNomePaciente(nomePaciente);
+			List<PrescricaoMedicamento> listaMedicamentos = service.listarMedicamentosPorNomePaciente(nomePaciente);
 
 			if (listaMedicamentos != null && !listaMedicamentos.isEmpty()) {
 				return ResponseEntity.ok(listaMedicamentos);
