@@ -61,7 +61,7 @@ public class WebSecurityConfig {
 	    	http.csrf().disable();
 	    	//http.cors().configurationSource(corsConfigurationSource);
 	        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-	        http.authorizeHttpRequests(auth -> auth.requestMatchers("/authenticate", "/docs/**", "/users", "/medicos", "/paciente/incluir", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs/**").permitAll().anyRequest().authenticated());
+	        http.authorizeHttpRequests(auth -> auth.requestMatchers("/paciente/listar-pacientes", "/internacao/paciente/**", "/medicamentos/listar", "/authenticate", "/docs/**", "/users", "/medicos", "/paciente/incluir", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs/**").permitAll().anyRequest().authenticated());
 	         http.exceptionHandling(exception -> exception.authenticationEntryPoint(  (request, response, ex) -> {
                  response.sendError(
                          HttpServletResponse.SC_UNAUTHORIZED,

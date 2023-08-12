@@ -46,7 +46,6 @@ public class InternacaoController {
     }
 	
     @GetMapping("/paciente/{nomePaciente}")
-    @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<List<Internacao>> buscarInternacoesPorNomePaciente(@PathVariable String nomePaciente) {
         List<Internacao> internacoes = internacaoService.buscarInternacoesPorNomePaciente(nomePaciente);
 

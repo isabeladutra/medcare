@@ -39,8 +39,8 @@ public class MedicamentosController {
         }
     }
 	
+	//@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
 	@GetMapping("/listar")
-	@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
 	public ResponseEntity<?> listarMedicamentosPorNomePaciente(@RequestParam String nomePaciente) {
 	    try {
 	    	
