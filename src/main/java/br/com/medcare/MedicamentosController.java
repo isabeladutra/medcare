@@ -20,45 +20,39 @@ import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.services.MedicamentosService;
 import jakarta.annotation.security.RolesAllowed;
 
-
 @RestController
 @RequestMapping("/medicamentos")
 public class MedicamentosController {
-	
+
 	@Autowired
 	MedicamentosService service;
-	
+
 	@PostMapping("/salvar")
 	@RolesAllowed("ROLE_MEDICO")
-    public ResponseEntity<String> salvarMedicamentos(@RequestBody MedicamentoRequest dto) {
-        try {
-            service.salvarMedicamentos(dto);
-            return ResponseEntity.ok("Medicamentos salvos com sucesso.");
-        } catch (PacienteNaoEncontradoException e) {
-        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não está cadastrado no sistema");
-        }
-    }
-	
-	//@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
+	public ResponseEntity<String> salvarMedicamentos(@RequestBody MedicamentoRequest dto) {
+		try {
+			service.salvarMedicamentos(dto);
+			return ResponseEntity.ok("Medicamentos salvos com sucesso.");
+		} catch (PacienteNaoEncontradoException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não está cadastrado no sistema");
+		}
+	}
+
+	// @PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
 	@GetMapping("/listar")
 	public ResponseEntity<?> listarMedicamentosPorNomePaciente(@RequestParam String nomePaciente) {
-	    try {
-	    	
-	        List<String> listaMedicamentos = service.listarMedicamentosPorNomePaciente(nomePaciente);
+		try {
 
-	        if (listaMedicamentos != null && !listaMedicamentos.isEmpty()) {
-	            return ResponseEntity.ok(listaMedicamentos);
-	        } else {
-	            return ResponseEntity.notFound().build();
-	        }
-	    } catch (PacienteNaoEncontradoException e) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não está cadastrado no sistema");
-	    }
+			List<String> listaMedicamentos = service.listarMedicamentosPorNomePaciente(nomePaciente);
+
+			if (listaMedicamentos != null && !listaMedicamentos.isEmpty()) {
+				return ResponseEntity.ok(listaMedicamentos);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (PacienteNaoEncontradoException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não está cadastrado no sistema");
+		}
 	}
-	
-
-
-
-
 
 }
