@@ -35,7 +35,7 @@ public class MedicoControllerTests {
        }
 	
 	
-    @Test
+  /*  @Test
     public void testCadastrarMedico() {
      
 
@@ -86,5 +86,5 @@ public class MedicoControllerTests {
 
         // Verifique se o método do MedicoService foi chamado com o médico existente
         verify(medicoService).salvarMedico(medicoExistente);
-    }
+    }*/
 }

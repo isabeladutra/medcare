@@ -18,7 +18,7 @@ public class UserRepositoryService  {
 	
 	@Autowired private RoleRepository roleRepo;
 	//A função da classe JwtUserDetailsService é buscar os detalhes do usuário no sistema de armazenamento de dados, como um banco de dados ou outro serviço externo, com base no nome de usuário fornecido. 
-	public User salvaMedico(String email, String senha) {
+	public User salvaMedico(String email, String senha, String nome) {
 		 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	        String password = passwordEncoder.encode(senha);
 	       
@@ -30,14 +30,14 @@ public class UserRepositoryService  {
 	        newUser.setEmail(email);
 	        newUser.setPassword(password);
 	        newUser.setRoles(roles);
-	        
+	        newUser.setNome(nome);
 	        User savedUser = repo.save(newUser);
 	        return savedUser;
 	         
 	        
 	}
 	
-	public User salvaPaciente(String email, String senha) {
+	public User salvaPaciente(String email, String senha, String nome) {
 		 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	        String password = passwordEncoder.encode(senha);
 	       
@@ -49,6 +49,7 @@ public class UserRepositoryService  {
 	        newUser.setEmail(email);
 	        newUser.setPassword(password);
 	        newUser.setRoles(roles);
+	        newUser.setNome(nome);
 	        
 	        User savedUser = repo.save(newUser);
 	        return savedUser;
@@ -67,6 +68,14 @@ public class UserRepositoryService  {
 		        return false;
 		    }
 	}
-	
+
+	public String buscaNomeUser(String email) {
+		Optional<User> user = repo.findByEmail(email);
+		
+		if(user.isPresent()) {
+			return user.get().getNome();
+		}
+		return null;
+	}
 	
 }

@@ -93,7 +93,7 @@ public class PacienteController {
 		Paciente pac = pacienteService.buscarPacientePorNome(paciente.getNome());
 
 		if (!usuarioExiste && pac == null) {
-			User usuarioSalvo = userService.salvaPaciente(paciente.getEmail(), paciente.getPassword());
+			User usuarioSalvo = userService.salvaPaciente(paciente.getEmail(), paciente.getPassword(), paciente.getNome());
 			Paciente novoPaciente = new Paciente();
 			novoPaciente.setTelefone(paciente.getCelular());
 			novoPaciente.setCpf(paciente.getCpf());

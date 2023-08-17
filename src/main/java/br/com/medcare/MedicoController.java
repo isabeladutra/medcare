@@ -69,7 +69,7 @@ public class MedicoController {
 		boolean usuarioExiste = userService.buscaMedicoouPaciente(medico.getEmail());
 		Medico med = medicoService.buscarMedicoPorNome(medico.getNome());
 		if (!usuarioExiste && med == null) {
-			User usuarioSalvo = userService.salvaMedico(medico.getEmail(), medico.getPassword());
+			User usuarioSalvo = userService.salvaMedico(medico.getEmail(), medico.getPassword(), medico.getNome());
 			Medico novomedico = new Medico();
 			novomedico.setCelular(medico.getCelular());
 			novomedico.setCpf(medico.getCpf());
