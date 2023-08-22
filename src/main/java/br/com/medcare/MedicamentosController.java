@@ -28,8 +28,8 @@ public class MedicamentosController {
 	@Autowired
 	MedicamentosService service;
 
-	@PostMapping("/salvar")
 	@RolesAllowed("ROLE_MEDICO")
+	@PostMapping("/salvar")
 	public ResponseEntity<String> salvarMedicamentos(@RequestBody MedicamentoRequest dto) {
 		try {
 			service.salvarMedicamentos(dto);
