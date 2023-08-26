@@ -39,17 +39,19 @@ public class MedicamentosService {
         }
     }
 
-    public List<PrescricaoMedicamento> listarMedicamentosPorNomePaciente(String nomePaciente) throws PacienteNaoEncontradoException {
+    public List<Medicamentos> listarMedicamentosPorNomePaciente(String nomePaciente) throws PacienteNaoEncontradoException {
         Paciente paciente = pacienteRepository.findByNome(nomePaciente);
 
         if (paciente == null) {
             throw new PacienteNaoEncontradoException("Paciente não encontrado.");
         }
 
-        Medicamentos medicamentos = repo.findByPaciente(paciente);
+       List<Medicamentos> medicamentos = repo.findByPaciente(paciente);
         
+       
         if (medicamentos != null) {
-            return medicamentos.getPrescricoes();
+        	
+            return medicamentos;
         } else {
             return Collections.emptyList();
         }

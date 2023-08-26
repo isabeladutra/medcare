@@ -1,5 +1,6 @@
 package br.com.medcare;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.medcare.dto.ListaMedicamentoResponse;
 import br.com.medcare.dto.MedicamentoRequest;
 import br.com.medcare.exceptions.PacienteNaoEncontradoException;
+import br.com.medcare.model.Medicamentos;
 import br.com.medcare.model.PrescricaoMedicamento;
 import br.com.medcare.services.MedicamentosService;
 import jakarta.annotation.security.RolesAllowed;
@@ -44,10 +47,22 @@ public class MedicamentosController {
 	public ResponseEntity<?> listarMedicamentosPorNomePaciente(@RequestParam String nomePaciente) {
 		try {
 
-			List<PrescricaoMedicamento> listaMedicamentos = service.listarMedicamentosPorNomePaciente(nomePaciente);
+			List<Medicamentos> listaMedicamentos = service.listarMedicamentosPorNomePaciente(nomePaciente);
 
 			if (listaMedicamentos != null && !listaMedicamentos.isEmpty()) {
-				return ResponseEntity.ok(listaMedicamentos);
+				
+				ListaMedicamentoResponse medResp = new ListaMedicamentoResponse();
+				List<PrescricaoMedicamento> listaPrescricao = new ArrayList<>();
+				for (Medicamentos medicamentos : listaMedicamentos) {
+					List<PrescricaoMedicamento> listaPrec = medicamentos.getPrescricoes();
+					for (PrescricaoMedicamento prescricaoMedicamento : listaPrec) {
+						listaPrescricao.add(prescricaoMedicamento);
+					}
+					//medResp.setListaPrescricao(medicamentos.getPrescricoes());
+				}
+				medResp.setListaPrescricao(listaPrescricao);
+				medResp.setPaciente(listaMedicamentos.get(0).getPaciente());
+				return ResponseEntity.ok(medResp);
 			} else {
 				return ResponseEntity.notFound().build();
 			}
