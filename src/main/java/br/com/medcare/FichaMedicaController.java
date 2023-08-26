@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +36,8 @@ public class FichaMedicaController {
 	public FichaMedicaService fichaService;
 
 	
+	@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
     @PostMapping("/incluir")
-    @RolesAllowed("ROLE_PACIENTE")
     public ResponseEntity<String> incluirFichaMedica(@RequestBody FichaMedicaRequest fichaMedicaRequest) {
         // Primeiro, buscamos o paciente pelo ID passado no FichaMedicaRequest
         Paciente paciente = pacienteService.buscarPacientePorNome(fichaMedicaRequest.getNome());
@@ -45,29 +46,41 @@ public class FichaMedicaController {
         if (paciente == null) {
             return new ResponseEntity<>("Paciente não encontrado", HttpStatus.NOT_FOUND);
         }
+        // verifica se paciente já tem ficha médica
+        
+        FichaMedica ficha =   fichaService.buscarFichaMedicaPorNomePaciente(paciente.getNome());
+        if(ficha == null) {
+            // Criamos a nova ficha médica com base no FichaMedicaRequest e associamos ao paciente
+            FichaMedica fichaMedica = new FichaMedica();
+            fichaMedica.setNomePaciente(paciente.getNome());
+            fichaMedica.setIdade(paciente.getIdade());
+            fichaMedica.setAlergias(fichaMedicaRequest.getAlergias());
+            fichaMedica.setAltura(fichaMedicaRequest.getAltura());
+            fichaMedica.setPeso(fichaMedicaRequest.getPeso());
+            fichaMedica.setContatoDeEmergencia(fichaMedicaRequest.getContatoDeEmergencia());
+            fichaMedica.setPaciente(paciente);
+            fichaMedica.setProblemasDeSaude(ProblemasDeSaudeMapper.mapper(fichaMedicaRequest.getProblemasDeSaude()));
+            fichaMedica.setDataRegistro(LocalDateTime.now());
+            // Outros campos da ficha médica
 
-        // Criamos a nova ficha médica com base no FichaMedicaRequest e associamos ao paciente
-        FichaMedica fichaMedica = new FichaMedica();
-        fichaMedica.setNomePaciente(paciente.getNome());
-        fichaMedica.setIdade(paciente.getIdade());
-        fichaMedica.setAlergias(fichaMedicaRequest.getAlergias());
-        fichaMedica.setAltura(fichaMedicaRequest.getAltura());
-        fichaMedica.setPeso(fichaMedicaRequest.getPeso());
-        fichaMedica.setContatoDeEmergencia(fichaMedicaRequest.getContatoDeEmergencia());
-        fichaMedica.setPaciente(paciente);
-        fichaMedica.setProblemasDeSaude(ProblemasDeSaudeMapper.mapper(fichaMedicaRequest.getProblemasDeSaude()));
-        fichaMedica.setDataRegistro(LocalDateTime.now());
-        // Outros campos da ficha médica
+            // Salvar a ficha médica no banco de dados através do serviço
+            fichaService.salvarFichaMedica(fichaMedica);
 
-        // Salvar a ficha médica no banco de dados através do serviço
-        fichaService.salvarFichaMedica(fichaMedica);
+            return new ResponseEntity<>("Ficha médica incluída com sucesso", HttpStatus.CREATED);
+        } else {
+        	return new ResponseEntity<>("Paciente já possui ficha médica cadastrada!", HttpStatus.CONFLICT);
+        }
+        
+        
+        
+        
+        
 
-        return new ResponseEntity<>("Ficha médica incluída com sucesso", HttpStatus.CREATED);
     }
     
 	
     @GetMapping("/buscar-por-nome/{nomePaciente}")
-    @RolesAllowed("ROLE_PACIENTE")
+    @PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
     public ResponseEntity<FichaMedica> buscarFichaMedicaPorNome(@PathVariable String nomePaciente) {
         FichaMedica fichaMedica = fichaService.buscarFichaMedicaPorNomePaciente(nomePaciente);
 
@@ -80,7 +93,7 @@ public class FichaMedicaController {
     
 	
     @DeleteMapping("/excluir-por-nome/{nomePaciente}")
-    @RolesAllowed("ROLE_PACIENTE")
+    @PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
     public ResponseEntity<String> excluirFichaMedicaPorNome(@PathVariable String nomePaciente) {
         boolean fichaMedicaExcluida = fichaService.excluirFichaMedicaPorNomePaciente(nomePaciente);
 
