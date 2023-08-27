@@ -1,5 +1,6 @@
 package br.com.medcare.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -45,9 +46,12 @@ public class FichaMedica {
 	    private Paciente paciente;
 	    
 	    public void setDataDeNascimentoFormatted(String dataDeNascimento) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDateTime localDateTime = LocalDateTime.parse(dataDeNascimento, formatter);
-			this.dataDeNascimento = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE);
+	    	  // Use o DateTimeFormatter para fazer a formatação da data
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	        LocalDate localDate = LocalDate.parse(dataDeNascimento, formatter);
+
+	        // Atribua a data formatada ao campo dataDeNascimento (que é uma string)
+	        this.dataDeNascimento = localDate.toString();
 		}
 
 }

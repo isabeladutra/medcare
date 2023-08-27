@@ -61,6 +61,7 @@ public class FichaMedicaController {
             fichaMedica.setPaciente(paciente);
             fichaMedica.setProblemasDeSaude(ProblemasDeSaudeMapper.mapper(fichaMedicaRequest.getProblemasDeSaude()));
             fichaMedica.setDataRegistro(LocalDateTime.now());
+            fichaMedica.setDataDeNascimentoFormatted(fichaMedicaRequest.getDataDeNascimento());
             // Outros campos da ficha médica
 
             // Salvar a ficha médica no banco de dados através do serviço
@@ -107,7 +108,7 @@ public class FichaMedicaController {
     
 	
     @PutMapping("/atualizar-por-nome/{nomePaciente}")
-    @RolesAllowed("ROLE_PACIENTE")
+    @PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
     public ResponseEntity<FichaMedica> atualizarFichaMedicaPorNome(@PathVariable String nomePaciente, @RequestBody FichaMedicaRequest fichaMedicaRequest) {
         FichaMedica fichaMedicaAtualizada = fichaService.atualizarFichaMedicaPorNomePaciente(nomePaciente, fichaMedicaRequest);
 
