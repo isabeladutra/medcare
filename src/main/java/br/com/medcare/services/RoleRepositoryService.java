@@ -13,7 +13,7 @@ public class RoleRepositoryService {
 	@Autowired
 	RoleRepository roleRepo;
 	
-	/*@PostConstruct
+/*	@PostConstruct
 	    public void init() {
 	        Salva();
 	    }
