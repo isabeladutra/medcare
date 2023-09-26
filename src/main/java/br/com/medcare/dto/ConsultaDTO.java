@@ -22,7 +22,7 @@ public class ConsultaDTO {
 	 private String especialidade;
 	 private String nomeMedico;
 	 private String nomePaciente;
-	 private BigInteger cpfPaciente;
+	 private String cpfPaciente;
 	    
 	    
 }

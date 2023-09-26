@@ -56,7 +56,7 @@ public class PacienteController {
 	
 	@GetMapping("/{cpf}/consultas")
 	@RolesAllowed("ROLE_PACIENTE")
-	public ResponseEntity<?> listarConsultasDoPaciente(@PathVariable("cpf") BigInteger cpf) {
+	public ResponseEntity<?> listarConsultasDoPaciente(@PathVariable("cpf") String cpf) {
 		try {
 			Paciente paciente = pacienteService.buscarPorCPF(cpf);
 			List<Consulta> consultas = consultaService.listarConsultasDoPaciente(paciente);
@@ -75,7 +75,7 @@ public class PacienteController {
 	
 	@DeleteMapping("/{cpf}")
 	@RolesAllowed("ROLE_MEDICO")
-	public ResponseEntity<String> excluirPaciente(@PathVariable("cpf") BigInteger cpf) {
+	public ResponseEntity<String> excluirPaciente(@PathVariable("cpf") String cpf) {
 		try {
 			pacienteService.excluirPaciente(cpf);
 			return ResponseEntity.ok("Paciente excluído com sucesso");
@@ -95,13 +95,13 @@ public class PacienteController {
 		if (!usuarioExiste && pac == null) {
 			User usuarioSalvo = userService.salvaPaciente(paciente.getEmail(), paciente.getPassword(), paciente.getNome());
 			Paciente novoPaciente = new Paciente();
-			novoPaciente.setTelefone(paciente.getCelular());
+			novoPaciente.setTelefone(paciente.getTelefone());
 			novoPaciente.setCpf(paciente.getCpf());
 			novoPaciente.setEndereco(paciente.getEndereco());
 			novoPaciente.setIdade(paciente.getIdade());
 			novoPaciente.setUser(usuarioSalvo);
 			novoPaciente.setNome(paciente.getNome());
-			novoPaciente.setSexo(paciente.getSexo());
+			novoPaciente.setCelular(paciente.getCelular());
 			try {
 				novoPaciente.setDataDenascimento(paciente.getDataDeNascimentoAsDate());
 			} catch (ParseException e) {
@@ -138,7 +138,7 @@ public class PacienteController {
 		pacienteExistente.setTelefone(pacienteRequest.getTelefone());
 		pacienteExistente.setEndereco(pacienteRequest.getEndereco());
 		pacienteExistente.setCpf(pacienteRequest.getCpf());
-		pacienteExistente.setSexo(pacienteRequest.getSexo());
+		
 		try {
 			pacienteExistente.setDataDenascimento(pacienteRequest.getDataDeNascimentoAsDate());
 		} catch (ParseException e) {

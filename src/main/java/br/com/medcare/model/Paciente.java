@@ -24,12 +24,12 @@ public class Paciente{
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Integer id;
 	    private Integer idade;
-	    private Integer telefone;
+	    private String telefone;
 	    private String endereco;
-	    private BigInteger cpf;
+	    private String cpf;
 	    private String nome;
 	    private Date dataDenascimento;
-	    private String sexo;
+	    private String celular;
 	    
 	    @OneToOne
 	    private User user;

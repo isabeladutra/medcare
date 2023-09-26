@@ -35,6 +35,7 @@ public class FichaMedica {
 	    private double peso;
 	    private double altura;
 	    private String dataDeNascimento;
+	    private String sexo;
 	    
 	    private ProblemasDeSaude problemasDeSaude;
 	    

@@ -9,7 +9,7 @@ import br.com.medcare.model.Paciente;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Integer>{
 
-	Optional<Paciente> findByCpf(BigInteger bigInteger);
+	Optional<Paciente> findByCpf(String cpf);
 
 	Paciente findByUserEmail(String email);
 

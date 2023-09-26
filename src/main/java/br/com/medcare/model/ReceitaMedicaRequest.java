@@ -10,7 +10,7 @@ public class ReceitaMedicaRequest {
 	private String nomeMedicoEmissor;
 	private BigInteger crmMedicoEmissor;
 	private String nomePaciente;
-	private BigInteger cpfPaciente;
+	private String cpfPaciente;
 	private String prescricao;
 
 }

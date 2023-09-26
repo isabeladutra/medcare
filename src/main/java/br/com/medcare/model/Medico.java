@@ -22,10 +22,10 @@ public class Medico  {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Integer id;
 	    private BigInteger crm;
-	    private Integer celular;
+	    private String celular;
 	    private Integer idade;
 	    private String Endereco;
-	    private BigInteger cpf;
+	    private String cpf;
 	    private String especialidade;
 	    private String nome;
 	    

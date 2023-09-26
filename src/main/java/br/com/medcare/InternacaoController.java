@@ -57,6 +57,14 @@ public class InternacaoController {
 
         String nome = userse.buscaNomeUser(nomeMedico);
 		internacaoRequest.setMedicoNome(nome);
+		List<Internacao> listaDeInternacao = internacaoService.buscarInternacoesPorNomePaciente(internacaoRequest.getPacienteNome());
+		for (Internacao internacao : listaDeInternacao) {
+		 int comp = internacao.getDataEntradaInternacao().compareTo(internacaoRequest.getDataEntrada());
+		 if(comp == 0) {
+			 return new ResponseEntity<>("Já existe uma internação registrada para esse paciente nessa data", HttpStatus.BAD_REQUEST);
+		 }
+		}
+		
 		Internacao novaInternacao = internacaoService.adicionarInternacao(internacaoRequest);
 
         if (novaInternacao != null) {

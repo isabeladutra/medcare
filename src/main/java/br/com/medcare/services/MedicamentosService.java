@@ -1,12 +1,14 @@
 package br.com.medcare.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.medcare.dto.MedicamentoRequest;
+import br.com.medcare.exceptions.MedicamentoNaoEncontradoException;
 import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.mappers.MedicamentoMapper;
 import br.com.medcare.model.Medicamentos;
@@ -145,6 +147,26 @@ public class MedicamentosService {
 	            return "Lista de medicamentos não encontrada para o paciente.";
 	        }
 	    }
+	
+	public Medicamentos buscarPorId(Integer id) throws MedicamentoNaoEncontradoException {
+	    Optional<Medicamentos> retorno = repo.findById(id);
+	    
+	    // Verifica se o valor está presente no Optional
+	    if (retorno.isPresent()) {
+	        return retorno.get(); // Retorna o valor do Optional
+	    } else {
+	        // Você pode escolher como lidar com a situação em que o medicamento não foi encontrado.
+	        // Por exemplo, lançar uma exceção ou retornar um valor padrão.
+	        throw new MedicamentoNaoEncontradoException("Medicamento com ID " + id + " não encontrado");
+	        // Ou, caso deseje retornar um valor padrão:
+	        // return new Medicamentos(); // ou null, dependendo do seu requisito
+	    }
+	}
+	
+	public void salvar(Medicamentos med) {
+		repo.save(med);
+	}
+
 	}
 
 

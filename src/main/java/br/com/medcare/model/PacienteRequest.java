@@ -12,15 +12,15 @@ import lombok.Data;
 public class PacienteRequest {
 	 private Integer id;
 	    private Integer idade;
-	    private Integer telefone;
+	    private String telefone;
 	    private String endereco;
-	    private BigInteger cpf;
+	    private String cpf;
 	    private String nome;
 	    private String email;	    
 	    private String password;
-	    private Integer celular;
+	    private String celular;
 	    private String dataDeNascimento;
-	    private String sexo;
+	    
 	    
 	    
 	    public Date getDataDeNascimentoAsDate() throws ParseException {

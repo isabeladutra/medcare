@@ -16,5 +16,6 @@ public class FichaMedicaRequest {
 	private ProblemasDeSaudeRequest problemasDeSaude;
 	private Integer contatoDeEmergencia;
 	private String alergias;
+	private String sexo;
 
 }

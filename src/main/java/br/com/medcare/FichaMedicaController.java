@@ -61,6 +61,7 @@ public class FichaMedicaController {
             fichaMedica.setPaciente(paciente);
             fichaMedica.setProblemasDeSaude(ProblemasDeSaudeMapper.mapper(fichaMedicaRequest.getProblemasDeSaude()));
             fichaMedica.setDataRegistro(LocalDateTime.now());
+            fichaMedica.setSexo(fichaMedicaRequest.getSexo());
             fichaMedica.setDataDeNascimentoFormatted(fichaMedicaRequest.getDataDeNascimento());
             // Outros campos da ficha médica
 

@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class MedicoRequest {
 	 private BigInteger crm;
-	    private Integer celular;
+	    private String celular;
 	    private Integer idade;
 	    private String endereco;
-	    private BigInteger cpf;
+	    private String cpf;
 	    private String especialidade;
 	    private String email;	    
 	    private String password;

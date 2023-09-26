@@ -15,11 +15,11 @@ import java.text.SimpleDateFormat;
 public class PacienteDTO {
 	
 	private String nome;
-	private BigInteger cpf;
+	private String cpf;
 	private String enderecoCompleto;
 	private String email;
 	private String dataDeNascimentoFormatted;
-	private Integer telefone;
+	private String telefone;
 	    // getters e setters
 
 	    public void setDataDeNascimento(Date dataDeNascimento) {

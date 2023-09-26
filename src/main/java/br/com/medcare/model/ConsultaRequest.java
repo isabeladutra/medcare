@@ -12,7 +12,7 @@ public class ConsultaRequest {
 	private String nomeDoMedico;
 	private String nomeDopaciente;
 	private BigInteger crmMedico;
-	private BigInteger cpfpaciente;
+	private String cpfpaciente;
 	private String observacoes;
 	
 

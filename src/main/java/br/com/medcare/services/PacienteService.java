@@ -21,17 +21,17 @@ public class PacienteService {
 		
 	}
 	
-	public Paciente buscarPorCPF(BigInteger bigInteger) throws PacienteNaoEncontradoException {
-		Optional<Paciente> optionalPaciente = repo.findByCpf(bigInteger);
+	public Paciente buscarPorCPF(String cpf) throws PacienteNaoEncontradoException {
+		Optional<Paciente> optionalPaciente = repo.findByCpf(cpf);
 		
 		if (optionalPaciente.isPresent()) {
 			return optionalPaciente.get();
 		} else {
-			throw new PacienteNaoEncontradoException("Paciente com CPF " + bigInteger + " não encontrado");
+			throw new PacienteNaoEncontradoException("Paciente com CPF " + cpf + " não encontrado");
 		}
 	}
 	
-    public void excluirPaciente(BigInteger cpf) throws PacienteNaoEncontradoException {
+    public void excluirPaciente(String cpf) throws PacienteNaoEncontradoException {
         Paciente paciente = buscarPorCPF(cpf);
         
         if (paciente == null) {
