@@ -3,6 +3,7 @@ package br.com.medcare.model;
 import java.math.BigInteger;
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,7 +32,7 @@ public class Paciente{
 	    private Date dataDenascimento;
 	    private String celular;
 	    
-	    @OneToOne
+	    @OneToOne(cascade = CascadeType.ALL)
 	    private User user;
 
 }

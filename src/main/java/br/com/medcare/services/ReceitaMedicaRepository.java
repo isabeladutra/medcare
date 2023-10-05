@@ -13,4 +13,6 @@ public interface ReceitaMedicaRepository extends JpaRepository<ReceitaMedica, In
 
 	void deleteByPacienteNomeAndMedicoNomeAndDataReceita(String nomePaciente, String nomeMedico,
 			Date dataReceita);
+	
+	ReceitaMedica findByPacienteNomeAndMedicoNomeAndDataReceita(String nomePaciente, String nomeMedico, Date dataReceita);
 }

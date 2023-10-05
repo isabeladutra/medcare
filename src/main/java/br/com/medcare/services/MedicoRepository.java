@@ -13,6 +13,10 @@ public interface MedicoRepository extends JpaRepository<Medico, Integer>{
 	Optional<Medico> findByCrm(BigInteger crm);
 
 	Medico findByNome(String nomeMedicoExistente);
+	
+	Optional<Medico> findByUserEmail(String email);
+	
+	
 
 
 

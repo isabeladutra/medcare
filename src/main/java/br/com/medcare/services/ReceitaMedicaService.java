@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -71,23 +72,5 @@ public class ReceitaMedicaService {
 	            return null;
 	        }
 	    }
-	  
-	  public boolean excluirReceitaPorNomePacienteMedicoEData(String nomePaciente, String nomeMedico, LocalDate dataReceita) {
-	        try {
-	        	
-	        	  ZonedDateTime zonedDateTime = dataReceita.atStartOfDay(ZoneId.systemDefault());
-
-	              // Converte a ZonedDateTime para Instant
-	              Instant instant = zonedDateTime.toInstant();
-
-	              // Obtém o Date a partir do Instant
-	              Date date = Date.from(instant);
-	        	
-	            repo.deleteByPacienteNomeAndMedicoNomeAndDataReceita(nomePaciente, nomeMedico, date);
-	            return true;
-	        } catch (Exception ex) {
-	            // Tratar a exceção caso ocorra algum erro na exclusão
-	            return false;
-	        }
-	    }
+	
 }

@@ -2,6 +2,7 @@ package br.com.medcare.model;
 
 import java.math.BigInteger;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +30,6 @@ public class Medico  {
 	    private String especialidade;
 	    private String nome;
 	    
-	    @OneToOne
+	    @OneToOne(cascade = CascadeType.ALL)
 	    private User user;
 }

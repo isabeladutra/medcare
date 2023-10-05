@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,11 +31,12 @@ public class Internacao {
 	    private String nomeHospital;
 		private String motivoInternacao;
 		
+		
 		@ManyToOne
 		@JoinColumn(name = "paciente_id")
 		private Paciente paciente;
 		
-		@ManyToOne
+		@ManyToOne(cascade = CascadeType.ALL)
 		@JoinColumn(name = "medico_id")
 		private Medico medico;
 

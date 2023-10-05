@@ -2,6 +2,7 @@ package br.com.medcare;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,12 @@ import br.com.medcare.exceptions.MedicoNaoEncontradoException;
 import br.com.medcare.exceptions.PacienteNaoEncontradoException;
 import br.com.medcare.model.ReceitaMedica;
 import br.com.medcare.model.ReceitaMedicaRequest;
+import br.com.medcare.services.ReceitaMedicaRepository;
 import br.com.medcare.services.ReceitaMedicaService;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.annotation.security.RolesAllowed;
-
+import java.text.SimpleDateFormat;
 
 
 @RequestMapping("/receitas-medicas")
@@ -34,6 +36,10 @@ public class ReceitaMedicaController {
 	
 	@Autowired
 	ReceitaMedicaService receitaService;
+	
+	@Autowired
+	ReceitaMedicaRepository repo;
+	
 
 	
     @PostMapping("/incluir")
@@ -75,18 +81,17 @@ public class ReceitaMedicaController {
     @DeleteMapping("/excluir")
     @RolesAllowed("ROLE_MEDICO")
     public ResponseEntity<String> excluirReceitaMedica(
-            @RequestParam String nomePaciente, 
+            @RequestParam String nomePaciente,
             @RequestParam String nomeMedico,
-           @RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataReceita) {
-        
-    	
-        boolean receitaExcluida = receitaService.excluirReceitaPorNomePacienteMedicoEData(
-            nomePaciente, nomeMedico, dataReceita);
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataReceita) {
 
-        if (receitaExcluida) {
-            return new ResponseEntity<>("Receita médica excluída com sucesso", HttpStatus.OK);
+        ReceitaMedica receitaMedica = repo.findByPacienteNomeAndMedicoNomeAndDataReceita(nomePaciente, nomeMedico, dataReceita);
+
+        if (receitaMedica != null) {
+            repo.delete(receitaMedica);
+            return ResponseEntity.ok("Receita médica excluída com sucesso");
         } else {
-            return new ResponseEntity<>("Receita médica não encontrada", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(404).body("Receita médica não encontrada");
         }
     }
     

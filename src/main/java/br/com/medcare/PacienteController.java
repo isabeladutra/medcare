@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.medcare.dto.ConsultaDTO;
@@ -53,7 +55,9 @@ public class PacienteController {
 	@Autowired
 	UserRepositoryService userService;
 
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@GetMapping("/{cpf}/consultas")
 	@RolesAllowed("ROLE_PACIENTE")
 	public ResponseEntity<?> listarConsultasDoPaciente(@PathVariable("cpf") String cpf) {
@@ -72,7 +76,6 @@ public class PacienteController {
 		}
 	}
 
-	
 	@DeleteMapping("/{cpf}")
 	@RolesAllowed("ROLE_MEDICO")
 	public ResponseEntity<String> excluirPaciente(@PathVariable("cpf") String cpf) {
@@ -84,7 +87,6 @@ public class PacienteController {
 		}
 	}
 
-	
 	@PostMapping("/incluir")
 	public ResponseEntity<String> cadastraPaciente(@RequestBody PacienteRequest paciente) {
 		// esse endpoint seria aberto pra cadastrar um usuário médico no banco
@@ -93,7 +95,8 @@ public class PacienteController {
 		Paciente pac = pacienteService.buscarPacientePorNome(paciente.getNome());
 
 		if (!usuarioExiste && pac == null) {
-			User usuarioSalvo = userService.salvaPaciente(paciente.getEmail(), paciente.getPassword(), paciente.getNome());
+			User usuarioSalvo = userService.salvaPaciente(paciente.getEmail(), paciente.getPassword(),
+					paciente.getNome());
 			Paciente novoPaciente = new Paciente();
 			novoPaciente.setTelefone(paciente.getTelefone());
 			novoPaciente.setCpf(paciente.getCpf());
@@ -122,15 +125,24 @@ public class PacienteController {
 		}
 	}
 
-
 	@PutMapping("/atualizar")
 	@PreAuthorize("hasAnyRole('ROLE_MEDICO', 'ROLE_PACIENTE')")
-	public ResponseEntity<String> atualizarPaciente(@RequestBody PacienteRequest pacienteRequest) {
+	public ResponseEntity<String> atualizarPaciente(@RequestBody PacienteRequest pacienteRequest,
+			@RequestParam String nome) {
 		// Primeiro, verifique se o paciente existe pelo nome
-		Paciente pacienteExistente = pacienteService.buscarPacientePorNome(pacienteRequest.getNome());
+		Paciente pacienteExistente = pacienteService.buscarPacientePorNome(nome);
 
 		if (pacienteExistente == null) {
 			return new ResponseEntity<>("Paciente não encontrado", HttpStatus.NOT_FOUND);
+		}
+		Paciente pacAntigo = pacienteExistente;
+		if (!pacAntigo.getNome().equals(pacienteRequest.getNome())) {
+			Paciente pac = pacienteService.buscarPacientePorNome(pacienteRequest.getNome());
+			if (pac != null) {
+				return new ResponseEntity<>("Já existe um paciente cadastrado com esse nome", HttpStatus.CONFLICT);
+			}
+			pacienteExistente.setNome(pacienteRequest.getNome());
+			pacienteExistente.getUser().setNome(pacienteRequest.getNome());
 		}
 
 		// Atualize os campos do paciente existente com os dados do pacienteRequest
@@ -138,7 +150,7 @@ public class PacienteController {
 		pacienteExistente.setTelefone(pacienteRequest.getTelefone());
 		pacienteExistente.setEndereco(pacienteRequest.getEndereco());
 		pacienteExistente.setCpf(pacienteRequest.getCpf());
-		
+
 		try {
 			pacienteExistente.setDataDenascimento(pacienteRequest.getDataDeNascimentoAsDate());
 		} catch (ParseException e) {
@@ -147,17 +159,22 @@ public class PacienteController {
 					"Não foi possivel fazer o parse da data de nascimento. Deve estar no formato dd/mm/yyyy",
 					HttpStatus.CONFLICT);
 		}
+		if (!pacAntigo.getUser().getEmail().equals(pacienteRequest.getEmail())) {
+			Paciente pac = pacienteService.buscarPoremail(pacienteRequest.getEmail());
+			if (pac != null) {
+				return new ResponseEntity<>("Já existe um paciente cadastrado com esse email", HttpStatus.CONFLICT);
+			}
+		}
 		pacienteExistente.getUser().setEmail(pacienteRequest.getEmail());
-		pacienteExistente.getUser().setPassword(pacienteRequest.getPassword());
+		String senhaCodificada = passwordEncoder.encode(pacienteRequest.getPassword());
+		pacienteExistente.getUser().setPassword(senhaCodificada);
 
 		// Salve as alterações no banco de dados
 		pacienteService.salvarPaciente(pacienteExistente);
 
 		return new ResponseEntity<>("Paciente atualizado com sucesso", HttpStatus.OK);
 	}
-	
 
-	
 	@GetMapping("/listar-pacientes")
 	public ResponseEntity<List<PacienteDTO>> listarPacientes() {
 		List<Paciente> pacientes = pacienteService.listarTodosPacientes();

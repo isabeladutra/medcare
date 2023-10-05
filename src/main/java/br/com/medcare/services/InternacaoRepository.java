@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.medcare.model.Internacao;
+import br.com.medcare.model.Medico;
 import br.com.medcare.model.Paciente;
 
 public interface InternacaoRepository extends JpaRepository<Internacao, Integer>{
@@ -15,6 +16,7 @@ public interface InternacaoRepository extends JpaRepository<Internacao, Integer>
 
 	Internacao findByPacienteNomeAndDataEntradaInternacao(String nomePaciente, LocalDateTime dataEntradaInternacao);
 
+	List<Internacao> findByMedico(Medico medico);
 
 
 }

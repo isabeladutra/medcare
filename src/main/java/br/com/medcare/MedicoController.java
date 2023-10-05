@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.medcare.model.Paciente;
 import br.com.medcare.exceptions.MedicoNaoEncontradoException;
@@ -59,6 +61,8 @@ public class MedicoController {
 	@Autowired
 	PacienteService pacienteService;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@PostMapping("/medicos")
 	public ResponseEntity<String> cadastraMedico(@RequestBody MedicoRequest medico) {
@@ -94,12 +98,22 @@ public class MedicoController {
 	
 	@PutMapping("/medico/atualizar")
 	@RolesAllowed("ROLE_MEDICO")
-	public ResponseEntity<String> atualizarMedico(@RequestBody MedicoRequest medicoRequest) {
+	public ResponseEntity<String> atualizarMedico(@RequestBody MedicoRequest medicoRequest, @RequestParam String nome) {
 		// Primeiro, verifique se o médico existe pelo nome
-		Medico medicoExistente = medicoService.buscarMedicoPorNome(medicoRequest.getNome());
+		Medico medicoExistente = medicoService.buscarMedicoPorNome(nome);
 
 		if (medicoExistente == null) {
 			return new ResponseEntity<>("Médico não encontrado", HttpStatus.NOT_FOUND);
+		}
+		
+		Medico medicoAntigo = medicoExistente;
+		if(!medicoExistente.getNome().equals(medicoRequest.getNome())) {
+			Medico med = medicoService.buscarMedicoPorNome(medicoRequest.getNome());
+			if(med != null) {
+				return new ResponseEntity<>("Já existe um medico cadastrado com esse nome", HttpStatus.CONFLICT);
+			}
+			medicoExistente.setNome(medicoRequest.getNome());
+			medicoExistente.getUser().setNome(medicoRequest.getNome());
 		}
 
 		// Atualize os campos do médico existente com os dados do medicoRequest
@@ -109,9 +123,19 @@ public class MedicoController {
 		medicoExistente.setEndereco(medicoRequest.getEndereco());
 		medicoExistente.setCpf(medicoRequest.getCpf());
 		medicoExistente.setEspecialidade(medicoRequest.getEspecialidade());
+		if(!medicoAntigo.getUser().getEmail().equals(medicoRequest.getEmail())) {
+			Medico med = medicoService.buscarMedicoPorEmail(medicoRequest.getEmail());
+			
+			if(med != null) {
+				return new ResponseEntity<>("Já existe um medico cadastrado com esse email", HttpStatus.CONFLICT);
+			}
+		}
 		medicoExistente.getUser().setEmail(medicoRequest.getEmail());
-		medicoExistente.getUser().setPassword(medicoRequest.getPassword());
+		
+		String senhaCodificada = passwordEncoder.encode(medicoRequest.getPassword());
+		medicoExistente.getUser().setPassword(senhaCodificada);
 
+		medicoService.trocaMedicoEmOutrasTabelas(medicoExistente, medicoAntigo);
 		// Salve as alterações no banco de dados
 		medicoService.salvarMedico(medicoExistente);
 
