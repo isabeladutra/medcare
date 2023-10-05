@@ -11,21 +11,18 @@ import br.com.medcare.model.Consulta;
 import br.com.medcare.model.Medico;
 import br.com.medcare.model.Paciente;
 
-public interface ConsultaRepository extends JpaRepository<Consulta, Integer>{
+public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
 
 	boolean existsByMedicoAndDataHora(Medico medico, LocalDateTime dataHora);
 
 	boolean existsByPacienteAndDataHora(Paciente paciente, LocalDateTime dataHora);
 
 	List<Consulta> findByPaciente(Paciente paciente);
-	
 
 	List<Consulta> findByMedicoAndDataHora(Medico medico, LocalDateTime localDate);
 
 	Consulta findByDataHora(LocalDateTime dataHoraConsultaAtual);
-	
-	 Consulta findByPacienteAndDataHora(Paciente paciente, LocalDateTime dataHora);
 
-	
+	Consulta findByPacienteAndDataHora(Paciente paciente, LocalDateTime dataHora);
 
 }
