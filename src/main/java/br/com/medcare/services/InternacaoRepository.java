@@ -19,4 +19,7 @@ public interface InternacaoRepository extends JpaRepository<Internacao, Integer>
 	List<Internacao> findByMedico(Medico medico);
 
 
+	List<Internacao> findByMedicoNome(Medico medico);
+
+
 }

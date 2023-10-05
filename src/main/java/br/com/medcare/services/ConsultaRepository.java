@@ -25,4 +25,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
 
 	Consulta findByPacienteAndDataHora(Paciente paciente, LocalDateTime dataHora);
 
+	
+	 List<Consulta> findByMedico(Medico medico);
+
 }

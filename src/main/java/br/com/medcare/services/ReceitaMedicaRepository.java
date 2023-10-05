@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import br.com.medcare.model.Medico;
 import br.com.medcare.model.ReceitaMedica;
 
 public interface ReceitaMedicaRepository extends JpaRepository<ReceitaMedica, Integer>{
@@ -15,4 +16,8 @@ public interface ReceitaMedicaRepository extends JpaRepository<ReceitaMedica, In
 			Date dataReceita);
 	
 	ReceitaMedica findByPacienteNomeAndMedicoNomeAndDataReceita(String nomePaciente, String nomeMedico, Date dataReceita);
+
+	
+
+	List<ReceitaMedica> findByMedico(Medico medico);
 }

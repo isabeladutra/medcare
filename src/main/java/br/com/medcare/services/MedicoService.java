@@ -8,12 +8,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import br.com.medcare.exceptions.MedicoNaoEncontradoException;
 import br.com.medcare.exceptions.PacienteNaoEncontradoException;
+import br.com.medcare.model.Consulta;
 import br.com.medcare.model.Internacao;
 import br.com.medcare.model.Medico;
 import br.com.medcare.model.Paciente;
+import br.com.medcare.model.ReceitaMedica;
 import br.com.medcare.model.Role;
 import br.com.medcare.model.User;
 
@@ -25,30 +26,37 @@ public class MedicoService {
 
 	@Autowired
 	UserRepository userRepo;
-	
+
 	@Autowired
 	InternacaoRepository interRepo;
+
+	@Autowired
+	ConsultaRepository consulRepo;
+
+	@Autowired
+	ReceitaMedicaRepository ReceitaRepo;
 
 	public Medico salvarMedico(Medico medico) {
 		return repo.save(medico);
 
 	}
-	
-	 public Medico buscarMedicoPorEmail(String email) {
-	        Optional<Medico> medicoOptional = repo.findByUserEmail(email);
-	        return medicoOptional.orElse(null);
-	    }
+
+	public Medico buscarMedicoPorEmail(String email) {
+		Optional<Medico> medicoOptional = repo.findByUserEmail(email);
+		return medicoOptional.orElse(null);
+	}
 
 	public void trocaMedicoEmOutrasTabelas(Medico medicoNovo, Medico medicoExistente) {
 		List<Internacao> listaDeinter = interRepo.findByMedico(medicoExistente);
-		if(!listaDeinter.isEmpty()) {
+		if (!listaDeinter.isEmpty()) {
 			for (Internacao internacao : listaDeinter) {
 				internacao.setMedico(medicoNovo);
-				
+
 			}
 		}
-		
+
 	}
+
 	public Medico buscarPorCRM(BigInteger bigInteger) throws MedicoNaoEncontradoException {
 		Optional<Medico> optionalMedico = repo.findByCrm(bigInteger);
 
@@ -68,8 +76,23 @@ public class MedicoService {
 		if (medico == null) {
 			throw new MedicoNaoEncontradoException("Medico não encontrado");
 		}
-		
-        
+
+		List<Consulta> listaConsul = consulRepo.findByMedico(medico);
+		if (!listaConsul.isEmpty()) {
+			for (Consulta consulta : listaConsul) {
+				consulRepo.delete(consulta);
+			}
+		}
+
+	
+
+		List<ReceitaMedica> listaDeReceita = ReceitaRepo.findByMedico(medico);
+		if (!listaDeReceita.isEmpty()) {
+			for (ReceitaMedica receitaMedica : listaDeReceita) {
+				ReceitaRepo.delete(receitaMedica);
+			}
+		}
+
 		repo.delete(medico);
 	}
 
@@ -77,7 +100,5 @@ public class MedicoService {
 		Medico medico = repo.findByNome(nomeMedicoExistente);
 		return medico;
 	}
-
-
 
 }
