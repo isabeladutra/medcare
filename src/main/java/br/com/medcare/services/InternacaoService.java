@@ -27,10 +27,10 @@ public class InternacaoService {
 	public Internacao adicionarInternacao(InternacaoRequest internacaoRequest) {
         // Buscar o paciente e o médico no banco de dados pelos IDs fornecidos na requisição
         Paciente paciente = pacienteRepository.findByNome(internacaoRequest.getPacienteNome());
-        Medico medico = medicoRepository.findByNome(internacaoRequest.getMedicoNome());
+    
 
-        // Verificar se o paciente e o médico foram encontrados no banco de dados
-        if (paciente != null && medico != null) {
+        // Verificar se o paciente encontrado no banco de dados
+        if (paciente != null ) {
             // Criar uma nova instância de Internacao e atribuir os dados recebidos da requisição
             Internacao novaInternacao = new Internacao();
             novaInternacao.setDataEntradaInternacao(internacaoRequest.getDataEntrada());
@@ -38,7 +38,7 @@ public class InternacaoService {
             novaInternacao.setNomeHospital(internacaoRequest.getNomeHospital());
             novaInternacao.setMotivoInternacao(internacaoRequest.getMotivoInternacao());
             novaInternacao.setPaciente(paciente);
-            novaInternacao.setMedico(medico);
+     
 
             // Salvar a internação no banco de dados e retorná-la
             return internacaoRepository.save(novaInternacao);

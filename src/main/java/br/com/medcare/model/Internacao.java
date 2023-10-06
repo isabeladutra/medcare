@@ -36,8 +36,5 @@ public class Internacao {
 		@JoinColumn(name = "paciente_id")
 		private Paciente paciente;
 		
-		@ManyToOne(cascade = CascadeType.ALL)
-		@JoinColumn(name = "medico_id")
-		private Medico medico;
-
+	
 }

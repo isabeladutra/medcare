@@ -56,7 +56,7 @@ public class InternacaoController {
 		
 
         String nome = userse.buscaNomeUser(nomeMedico);
-		internacaoRequest.setMedicoNome(nome);
+		
 		List<Internacao> listaDeInternacao = internacaoService.buscarInternacoesPorNomePaciente(internacaoRequest.getPacienteNome());
 		for (Internacao internacao : listaDeInternacao) {
 		 int comp = internacao.getDataEntradaInternacao().compareTo(internacaoRequest.getDataEntrada());
@@ -70,7 +70,7 @@ public class InternacaoController {
         if (novaInternacao != null) {
             return new ResponseEntity<>("Internacao registrada com sucesso", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>("Medico ou paciente não registrados", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Paciente não registrado", HttpStatus.BAD_REQUEST);
         }
     }
 	
@@ -88,7 +88,7 @@ public class InternacaoController {
     
     @PutMapping("/atualizar")
     @RolesAllowed("ROLE_MEDICO")
-    public ResponseEntity<Internacao> atualizarInternacao(
+    public ResponseEntity<?> atualizarInternacao(
             @RequestParam String nomePaciente,
             @RequestParam String dataEntrada,
             @RequestBody InternacaoRequest internacaoRequest
@@ -96,6 +96,14 @@ public class InternacaoController {
     	
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
         LocalDateTime dataEntradaDateTime = LocalDateTime.parse(dataEntrada, formatter);
+        
+        List<Internacao> listaDeInternacao = internacaoService.buscarInternacoesPorNomePaciente(internacaoRequest.getPacienteNome());
+		for (Internacao internacao : listaDeInternacao) {
+		 int comp = internacao.getDataEntradaInternacao().compareTo(internacaoRequest.getDataEntrada());
+		 if(comp == 0) {
+			 return new ResponseEntity<>("Já existe uma internação registrada para esse paciente nessa data", HttpStatus.BAD_REQUEST);
+		 }
+		}
         Internacao internacaoAtualizada = internacaoService.atualizarInternacao(nomePaciente, dataEntradaDateTime, internacaoRequest);
 
         if (internacaoAtualizada != null) {

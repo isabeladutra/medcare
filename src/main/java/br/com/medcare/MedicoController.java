@@ -135,7 +135,7 @@ public class MedicoController {
 		String senhaCodificada = passwordEncoder.encode(medicoRequest.getPassword());
 		medicoExistente.getUser().setPassword(senhaCodificada);
 
-		medicoService.trocaMedicoEmOutrasTabelas(medicoExistente, medicoAntigo);
+		
 		// Salve as alterações no banco de dados
 		medicoService.salvarMedico(medicoExistente);
 

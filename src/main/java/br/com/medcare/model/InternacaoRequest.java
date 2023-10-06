@@ -18,7 +18,7 @@ import lombok.Data;
 	    private String nomeHospital;
 	    private String motivoInternacao;
 	    private String pacienteNome; // ID do paciente associado à internação
-	    private String  medicoNome;   // ID do médico responsável pela internação
+	
 
 	}
 

@@ -16,10 +16,7 @@ public interface InternacaoRepository extends JpaRepository<Internacao, Integer>
 
 	Internacao findByPacienteNomeAndDataEntradaInternacao(String nomePaciente, LocalDateTime dataEntradaInternacao);
 
-	List<Internacao> findByMedico(Medico medico);
 
-
-	List<Internacao> findByMedicoNome(Medico medico);
 
 
 }

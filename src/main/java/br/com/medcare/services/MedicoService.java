@@ -46,16 +46,7 @@ public class MedicoService {
 		return medicoOptional.orElse(null);
 	}
 
-	public void trocaMedicoEmOutrasTabelas(Medico medicoNovo, Medico medicoExistente) {
-		List<Internacao> listaDeinter = interRepo.findByMedico(medicoExistente);
-		if (!listaDeinter.isEmpty()) {
-			for (Internacao internacao : listaDeinter) {
-				internacao.setMedico(medicoNovo);
-
-			}
-		}
-
-	}
+	
 
 	public Medico buscarPorCRM(BigInteger bigInteger) throws MedicoNaoEncontradoException {
 		Optional<Medico> optionalMedico = repo.findByCrm(bigInteger);
