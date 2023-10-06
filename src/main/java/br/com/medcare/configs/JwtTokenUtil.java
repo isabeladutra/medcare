@@ -1,6 +1,8 @@
 package br.com.medcare.configs;
 
 import java.security.Key;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -26,21 +28,23 @@ public class JwtTokenUtil {
 	 */
 	private static final long EXPIRE_DURATION = 72 * 60 * 60 * 1000; // 24 hour
 	 private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-	
+	 private static final ZoneId BRASILIA_ZONE_ID = ZoneId.of("America/Sao_Paulo");
 	
 	@Value("${jwt.secret}")
 	private String SECRET_KEY;
 	
 	private static final Key SECRET_KEY2 = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 	public String generateAccessToken(User user) {
-	    return Jwts.builder()
-	            .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
-	            .setIssuer("CodeJava")
-	            .claim("roles", user.getRoles().toString())
-	            .setIssuedAt(new Date())
-	            .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
-	            .signWith(SECRET_KEY2)
-	            .compact();
+		 ZonedDateTime issuedAt = ZonedDateTime.now(BRASILIA_ZONE_ID);
+	        ZonedDateTime expiration = issuedAt.plusHours(72); // 72 horas de expiração
+	        return Jwts.builder()
+	                .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
+	                .setIssuer("CodeJava")
+	                .claim("roles", user.getRoles().toString())
+	                .setIssuedAt(Date.from(issuedAt.toInstant()))
+	                .setExpiration(Date.from(expiration.toInstant()))
+	                .signWith(SECRET_KEY2)
+	                .compact();
     }
 	
 	
