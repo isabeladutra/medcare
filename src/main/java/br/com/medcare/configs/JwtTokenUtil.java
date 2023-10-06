@@ -24,7 +24,7 @@ public class JwtTokenUtil {
 	/**
 	 * Em resumo, a classe JwtTokenUtil fornece métodos para extrair informações de um token JWT, gerar novos tokens, verificar a validade de um token e manipular as reivindicações (claims) do token
 	 */
-	private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
+	private static final long EXPIRE_DURATION = 72 * 60 * 60 * 1000; // 24 hour
 	 private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 	
 	
