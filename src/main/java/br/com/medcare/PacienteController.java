@@ -166,9 +166,10 @@ public class PacienteController {
 			}
 		}
 		pacienteExistente.getUser().setEmail(pacienteRequest.getEmail());
+		if (!(pacienteRequest.getPassword() == null)) {
 		String senhaCodificada = passwordEncoder.encode(pacienteRequest.getPassword());
 		pacienteExistente.getUser().setPassword(senhaCodificada);
-
+		}
 		// Salve as alterações no banco de dados
 		pacienteService.salvarPaciente(pacienteExistente);
 

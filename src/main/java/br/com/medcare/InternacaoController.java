@@ -94,7 +94,7 @@ public class InternacaoController {
             @RequestBody InternacaoRequest internacaoRequest
     ) {
     	
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dataEntradaDateTime = LocalDateTime.parse(dataEntrada, formatter);
         
         List<Internacao> listaDeInternacao = internacaoService.buscarInternacoesPorNomePaciente(internacaoRequest.getPacienteNome());

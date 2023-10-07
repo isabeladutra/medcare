@@ -29,8 +29,8 @@ public class InternacaoService {
         Paciente paciente = pacienteRepository.findByNome(internacaoRequest.getPacienteNome());
     
 
-        // Verificar se o paciente encontrado no banco de dados
-        if (paciente != null ) {
+        // Verificar se o paciente e o médico foram encontrados no banco de dados
+        if (paciente != null) {
             // Criar uma nova instância de Internacao e atribuir os dados recebidos da requisição
             Internacao novaInternacao = new Internacao();
             novaInternacao.setDataEntradaInternacao(internacaoRequest.getDataEntrada());
@@ -63,26 +63,31 @@ public class InternacaoService {
     }
 	
 	
-	 public Internacao atualizarInternacao(String nomePaciente, LocalDateTime dataEntradaInternacao, InternacaoRequest internacaoRequest) {
-	        // Buscar a internação pelo nome do paciente e data de entrada no banco de dados
-	        Internacao internacao = internacaoRepository.findByPacienteNomeAndDataEntradaInternacao(nomePaciente, dataEntradaInternacao);
+	public Internacao atualizarInternacao(String nomePaciente, LocalDateTime dataEntradaInternacao, InternacaoRequest internacaoRequest) {
+	    Paciente paciente = pacienteRepository.findByNome(nomePaciente);
+	    // Buscar a internação pelo nome do paciente e data de entrada no banco de dados
+	    List<Internacao> lista = internacaoRepository.findByPaciente(paciente);
 
-	        if (internacao != null) {
-	            // Atualizar os dados da internação com os novos dados do internacaoRequest
-	            internacao.setDataEntradaInternacao(internacaoRequest.getDataEntrada());
-	            internacao.setDataSaidaInternacao(internacaoRequest.getDataSaida());
-	            internacao.setNomeHospital(internacaoRequest.getNomeHospital());
-	            internacao.setMotivoInternacao(internacaoRequest.getMotivoInternacao());
-	            // Salvar a internação atualizada no banco de dados
-	            return internacaoRepository.save(internacao);
-	        }
+	    Internacao inter = internacaoRepository.findByPacienteAndDataEntradaInternacao(paciente, dataEntradaInternacao);
 
-	        return null; // Caso a internação não seja encontrada, retornar null
+	    if (inter != null) {
+	        // Atualizar os dados da internação com os novos dados do internacaoRequest
+	        inter.setDataEntradaInternacao(internacaoRequest.getDataEntrada());
+	        inter.setDataSaidaInternacao(internacaoRequest.getDataSaida());
+	        inter.setNomeHospital(internacaoRequest.getNomeHospital());
+	        inter.setMotivoInternacao(internacaoRequest.getMotivoInternacao());
+	        // Salvar a internação atualizada no banco de dados
+	        return internacaoRepository.save(inter);
 	    }
-	 
+
+	    return null; // Caso a internação não seja encontrada, retornar null
+	}
+
 	  public boolean excluirInternacao(String nomePaciente, LocalDateTime dataEntradaInternacao) {
+		  
+		  Paciente paciente = pacienteRepository.findByNome(nomePaciente);
 	        // Buscar a internação pelo nome do paciente e data de entrada no banco de dados
-	        Internacao internacao = internacaoRepository.findByPacienteNomeAndDataEntradaInternacao(nomePaciente, dataEntradaInternacao);
+	        Internacao internacao = internacaoRepository.findByPacienteAndDataEntradaInternacao(paciente, dataEntradaInternacao);
 
 	        if (internacao != null) {
 	            internacaoRepository.delete(internacao);
