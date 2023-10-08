@@ -72,10 +72,16 @@ public class InternacaoService {
 
 	    if (inter != null) {
 	        // Atualizar os dados da internação com os novos dados do internacaoRequest
+	    	if(!(internacaoRequest.getDataEntrada() == null)) {
 	        inter.setDataEntradaInternacao(internacaoRequest.getDataEntrada());
+	    	}
+	    	if(!(internacaoRequest.getDataSaida() == null)) {
 	        inter.setDataSaidaInternacao(internacaoRequest.getDataSaida());
-	        inter.setNomeHospital(internacaoRequest.getNomeHospital());
-	        inter.setMotivoInternacao(internacaoRequest.getMotivoInternacao());
+	    	}
+	    	if(!(internacaoRequest.getNomeHospital() == null)) {
+	        inter.setNomeHospital(internacaoRequest.getNomeHospital());}
+	    	if(!(internacaoRequest.getMotivoInternacao() == null)) {
+	        inter.setMotivoInternacao(internacaoRequest.getMotivoInternacao());}
 	        // Salvar a internação atualizada no banco de dados
 	        return internacaoRepository.save(inter);
 	    }

@@ -98,12 +98,13 @@ public class InternacaoController {
         LocalDateTime dataEntradaDateTime = LocalDateTime.parse(dataEntrada, formatter);
         
         List<Internacao> listaDeInternacao = internacaoService.buscarInternacoesPorNomePaciente(internacaoRequest.getPacienteNome());
-		for (Internacao internacao : listaDeInternacao) {
+		if(!(internacaoRequest.getDataEntrada() == null)) {
+        for (Internacao internacao : listaDeInternacao) {
 		 int comp = internacao.getDataEntradaInternacao().compareTo(internacaoRequest.getDataEntrada());
 		 if(comp == 0) {
 			 return new ResponseEntity<>("Já existe uma internação registrada para esse paciente nessa data", HttpStatus.BAD_REQUEST);
 		 }
-		}
+		}}
         Internacao internacaoAtualizada = internacaoService.atualizarInternacao(nomePaciente, dataEntradaDateTime, internacaoRequest);
 
         if (internacaoAtualizada != null) {
