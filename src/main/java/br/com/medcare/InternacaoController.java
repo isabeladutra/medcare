@@ -37,6 +37,14 @@ public class InternacaoController {
 	@Autowired
 	private InternacaoService internacaoService;
 	
+	public void setInternacaoService(InternacaoService internacaoService) {
+		this.internacaoService = internacaoService;
+	}
+
+	public void setUserse(UserRepositoryService userse) {
+		this.userse = userse;
+	}
+
 	@Autowired
 	private UserRepositoryService userse;
 	

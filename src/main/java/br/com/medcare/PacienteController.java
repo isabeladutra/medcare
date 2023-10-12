@@ -44,6 +44,22 @@ public class PacienteController {
 	@Autowired
 	private PacienteService pacienteService;
 
+	public void setPacienteService(PacienteService pacienteService) {
+		this.pacienteService = pacienteService;
+	}
+
+	public void setConsultaService(ConsultaService consultaService) {
+		this.consultaService = consultaService;
+	}
+
+	public void setUserService(UserRepositoryService userService) {
+		this.userService = userService;
+	}
+
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+
 	@Autowired
 	private ConsultaService consultaService;
 	/*

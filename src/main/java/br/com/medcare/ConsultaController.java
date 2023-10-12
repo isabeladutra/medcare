@@ -41,6 +41,24 @@ public class ConsultaController {
 
 	@Autowired
 	private ConsultaService consultaService;
+	
+	
+
+	public void setConsultaService(ConsultaService consultaService) {
+		this.consultaService = consultaService;
+	}
+
+
+	public void setMedicoService(MedicoService medicoService) {
+		this.medicoService = medicoService;
+	}
+
+
+	public void setPacienteService(PacienteService pacienteService) {
+		this.pacienteService = pacienteService;
+	}
+
+
 
 	@Autowired
 	private MedicoService medicoService;

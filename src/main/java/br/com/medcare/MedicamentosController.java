@@ -41,6 +41,19 @@ public class MedicamentosController {
 	@Autowired
 	MedicamentosService service;
 
+	public void setService(MedicamentosService service) {
+		this.service = service;
+	}
+
+	public void setPacService(PacienteService pacService) {
+		this.pacService = pacService;
+	}
+
+	public void setPrescRepo(PrescricaoMedicamentoRepository prescRepo) {
+		this.prescRepo = prescRepo;
+	}
+
+
 	@Autowired
 	PacienteService pacService;
 

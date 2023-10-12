@@ -14,6 +14,8 @@ import br.com.medcare.model.Internacao;
 import br.com.medcare.model.Medicamentos;
 import br.com.medcare.model.Paciente;
 import br.com.medcare.model.User;
+import lombok.Data;
+
 
 @Service
 public class PacienteService {
@@ -24,18 +26,42 @@ public class PacienteService {
 	@Autowired
 	ConsultaRepository consultaRepo;
 	
+	public void setConsultaRepo(ConsultaRepository consultaRepo) {
+		this.consultaRepo = consultaRepo;
+	}
+
 	@Autowired
 	MedicamentosRepository medRepo;
 	
+	public void setMedRepo(MedicamentosRepository medRepo) {
+		this.medRepo = medRepo;
+	}
+
 	@Autowired
 	InternacaoRepository internacaoRepo;
 	
+	public void setInternacaoRepo(InternacaoRepository internacaoRepo) {
+		this.internacaoRepo = internacaoRepo;
+	}
+
+	public void setFichaRepo(FichaMedicaRepository fichaRepo) {
+		this.fichaRepo = fichaRepo;
+	}
+
 	@Autowired
 	FichaMedicaRepository fichaRepo;
 	
 	@Autowired
 	UserRepository userRepo;
 	
+	public void setRepo(PacienteRepository repo) {
+		this.repo = repo;
+	}
+
+	public void setUserRepo(UserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
+
 	public Paciente salvarPaciente(Paciente paciente) {
 		return repo.save(paciente);
 		

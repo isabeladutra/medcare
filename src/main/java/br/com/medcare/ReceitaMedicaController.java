@@ -37,6 +37,16 @@ public class ReceitaMedicaController {
 	@Autowired
 	ReceitaMedicaService receitaService;
 	
+	public void setReceitaService(ReceitaMedicaService receitaService) {
+		this.receitaService = receitaService;
+	}
+
+
+	public void setRepo(ReceitaMedicaRepository repo) {
+		this.repo = repo;
+	}
+
+
 	@Autowired
 	ReceitaMedicaRepository repo;
 	

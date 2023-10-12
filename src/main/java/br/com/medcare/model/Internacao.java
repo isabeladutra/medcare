@@ -30,10 +30,10 @@ public class Internacao {
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Integer id;
-	 @Column(columnDefinition = "DATETIME")
+	 @Column(columnDefinition = "TIMESTAMP")
 	    private LocalDateTime dataEntradaInternacao;
 	   
-	   @Column(columnDefinition = "DATETIME")
+	   @Column(columnDefinition = "TIMESTAMP")
 	    private LocalDateTime dataSaidaInternacao;
 	    private String nomeHospital;
 		private String motivoInternacao;

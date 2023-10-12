@@ -64,6 +64,10 @@ public class MedicoController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+
 	@PostMapping("/medicos")
 	public ResponseEntity<String> cadastraMedico(@RequestBody MedicoRequest medico) {
 		// esse endpoint seria aberto pra cadastrar um usuário médico no banco

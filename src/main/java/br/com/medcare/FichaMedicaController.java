@@ -32,6 +32,17 @@ public class FichaMedicaController {
 	@Autowired
 	PacienteService pacienteService;
 	
+	public void setPacienteService(PacienteService pacienteService) {
+		this.pacienteService = pacienteService;
+	}
+
+
+	public void setFichaService(FichaMedicaService fichaService) {
+		this.fichaService = fichaService;
+	}
+
+
+
 	@Autowired
 	public FichaMedicaService fichaService;
 
