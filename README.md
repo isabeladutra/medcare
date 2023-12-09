@@ -22,6 +22,7 @@ POSTGRES_USER: {usuario-do-banco} <br>
 POSTGRES_PASSWORD: {senha-do-banco}  <br>
 POSTGRES_DB: {nome do banco}  <br>
 </p>
+
 Esse arquivo externo é para não armazenar dados sensíveis na aplicação e o docker-compose irá pegar essas variáveis de ambiente através desse arquivo.
 Após isso, é só rodar docker-compose up -d que irá subir o conteiner com o banco postgres e o conteiner com a aplicação. 
 A estrutura do banco é montada via código pelo JPA assim que a aplicação sobe.
