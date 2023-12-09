@@ -10,6 +10,7 @@ Consiste em uma API REST de um sistema médico. </p>
 * postgres
 * springboot
 * JPA e Hibernate
+* Spring security
 
 ## Como rodar Localmente
 Para rodar localmente essa aplicação é necessário ter o docker desktop instalado localmente na máquina
