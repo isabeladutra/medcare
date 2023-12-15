@@ -29,7 +29,7 @@ import br.com.medcare.services.RoleRepositoryService;
 import br.com.medcare.services.UserRepositoryService;
 import jakarta.annotation.security.RolesAllowed;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class MedicoController {
 

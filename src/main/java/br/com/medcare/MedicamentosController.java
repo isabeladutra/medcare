@@ -34,8 +34,10 @@ import br.com.medcare.services.PacienteService;
 import br.com.medcare.services.PrescricaoMedicamentoRepository;
 import jakarta.annotation.security.RolesAllowed;
 
+
 @RestController
 @RequestMapping("/medicamentos")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MedicamentosController {
 
 	@Autowired
@@ -59,7 +61,8 @@ public class MedicamentosController {
 
 	@Autowired
 	PrescricaoMedicamentoRepository prescRepo;
-
+    
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RolesAllowed("ROLE_MEDICO")
 	@PostMapping("/salvar")
 	public ResponseEntity<String> salvarMedicamentos(@RequestBody MedicamentoRequest dto) {

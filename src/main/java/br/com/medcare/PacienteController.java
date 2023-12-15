@@ -37,6 +37,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("paciente")
 public class PacienteController {
